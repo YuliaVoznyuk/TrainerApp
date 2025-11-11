@@ -1,0 +1,12 @@
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Domain\bin\Debug\net9.0\TrainerApp.Domain.deps.json
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Domain\bin\Debug\net9.0\TrainerApp.Domain.dll
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Domain\bin\Debug\net9.0\TrainerApp.Domain.pdb
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Domain\obj\Debug\net9.0\TrainerApp.Domain.csproj.AssemblyReference.cache
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Domain\obj\Debug\net9.0\TrainerApp.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Domain\obj\Debug\net9.0\TrainerApp.Domain.AssemblyInfoInputs.cache
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Domain\obj\Debug\net9.0\TrainerApp.Domain.AssemblyInfo.cs
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Domain\obj\Debug\net9.0\TrainerApp.Domain.csproj.CoreCompileInputs.cache
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Domain\obj\Debug\net9.0\TrainerApp.Domain.dll
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Domain\obj\Debug\net9.0\refint\TrainerApp.Domain.dll
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Domain\obj\Debug\net9.0\TrainerApp.Domain.pdb
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Domain\obj\Debug\net9.0\ref\TrainerApp.Domain.dll

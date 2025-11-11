@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "m/nMUiASiHO4p3aJW1urZjhgqmjKqkVs3qnmzBL3Tf4=",
+  "Source": "TrainerApp.API",
+  "BasePath": "_content/TrainerApp.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

@@ -1,0 +1,15 @@
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\bin\Debug\net9.0\TrainerApp.Infrastructure.deps.json
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\bin\Debug\net9.0\TrainerApp.Infrastructure.dll
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\bin\Debug\net9.0\TrainerApp.Infrastructure.pdb
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\bin\Debug\net9.0\TrainerApp.Domain.dll
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\bin\Debug\net9.0\TrainerApp.Domain.pdb
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\obj\Debug\net9.0\TrainerApp.Infrastructure.csproj.AssemblyReference.cache
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\obj\Debug\net9.0\TrainerApp.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\obj\Debug\net9.0\TrainerApp.Infrastructure.AssemblyInfoInputs.cache
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\obj\Debug\net9.0\TrainerApp.Infrastructure.AssemblyInfo.cs
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\obj\Debug\net9.0\TrainerApp.Infrastructure.csproj.CoreCompileInputs.cache
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\obj\Debug\net9.0\TrainerA.F0449724.Up2Date
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\obj\Debug\net9.0\TrainerApp.Infrastructure.dll
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\obj\Debug\net9.0\refint\TrainerApp.Infrastructure.dll
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\obj\Debug\net9.0\TrainerApp.Infrastructure.pdb
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\obj\Debug\net9.0\ref\TrainerApp.Infrastructure.dll

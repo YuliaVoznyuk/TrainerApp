@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\TrainerApp.Domain\TrainerApp.Domain.csproj" />
+      <ProjectReference Include="..\TrainerApp.Infrastructure\TrainerApp.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="15.1.0" />
+      <PackageReference Include="FluentValidation" Version="11.11.0" />
+      <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
+    </ItemGroup>
+
+</Project>
