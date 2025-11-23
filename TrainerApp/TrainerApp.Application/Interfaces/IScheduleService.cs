@@ -1,3 +1,5 @@
+using System.Security.Claims;
+
 namespace TrainerApp.Application.Interfaces;
 
 public interface IScheduleService
@@ -7,4 +9,6 @@ public interface IScheduleService
     Task JoinSlotAsync(Guid clientId, Guid slotId);
     Task LeaveSlotAsync(Guid clientId, Guid slotId);
     Task DeleteSlotAsync(Guid trainerId, Guid slotId);
+    Task<Guid> GetTrainerIdAsync(ClaimsPrincipal userClaims);
+    Task<Guid> GetClientIdAsync(ClaimsPrincipal userClaims);
 }

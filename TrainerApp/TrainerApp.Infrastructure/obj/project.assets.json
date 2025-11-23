@@ -2,6 +2,24 @@
   "version": 3,
   "targets": {
     "net9.0": {
+      "AutoMapper/15.1.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
+          "Microsoft.Extensions.Options": "8.0.0",
+          "Microsoft.IdentityModel.JsonWebTokens": "8.14.0"
+        },
+        "compile": {
+          "lib/net9.0/AutoMapper.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/AutoMapper.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "FluentValidation/11.11.0": {
         "type": "package",
         "compile": {
@@ -524,6 +542,22 @@
           }
         }
       },
+      "TrainerApp.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "AutoMapper": "15.1.0",
+          "FluentValidation": "11.11.0",
+          "FluentValidation.AspNetCore": "11.3.1",
+          "TrainerApp.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/TrainerApp.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TrainerApp.Application.dll": {}
+        }
+      },
       "TrainerApp.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
@@ -541,6 +575,26 @@
     }
   },
   "libraries": {
+    "AutoMapper/15.1.0": {
+      "sha512": "uJXRC0ysO+i3fuW1onh0cUmaLbEwfMWwAZ5nw2eKhYccHwDgRhSC4Qj3rNdBy4vdhnC3r4NinhhldANKNWpH1Q==",
+      "type": "package",
+      "path": "automapper/15.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "automapper.15.1.0.nupkg.sha512",
+        "automapper.nuspec",
+        "icon.png",
+        "lib/net8.0/AutoMapper.dll",
+        "lib/net8.0/AutoMapper.xml",
+        "lib/net9.0/AutoMapper.dll",
+        "lib/net9.0/AutoMapper.xml",
+        "lib/netstandard2.0/AutoMapper.dll",
+        "lib/netstandard2.0/AutoMapper.xml"
+      ]
+    },
     "FluentValidation/11.11.0": {
       "sha512": "cyIVdQBwSipxWG8MA3Rqox7iNbUNUTK5bfJi9tIdm4CAfH71Oo5ABLP4/QyrUwuakqpUEPGtE43BDddvEehuYw==",
       "type": "package",
@@ -1274,6 +1328,11 @@
         "system.identitymodel.tokens.jwt.nuspec"
       ]
     },
+    "TrainerApp.Application/1.0.0": {
+      "type": "project",
+      "path": "../TrainerApp.Application/TrainerApp.Application.csproj",
+      "msbuildProject": "../TrainerApp.Application/TrainerApp.Application.csproj"
+    },
     "TrainerApp.Domain/1.0.0": {
       "type": "project",
       "path": "../TrainerApp.Domain/TrainerApp.Domain.csproj",
@@ -1286,6 +1345,7 @@
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 9.0.1",
       "Swashbuckle.AspNetCore.SwaggerGen >= 9.0.6",
       "System.IdentityModel.Tokens.Jwt >= 8.14.0",
+      "TrainerApp.Application >= 1.0.0",
       "TrainerApp.Domain >= 1.0.0"
     ]
   },
@@ -1321,6 +1381,9 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
+            "D:\\ProjecttsPortfolio\\TrainerApp\\TrainerApp.Application\\TrainerApp.Application.csproj": {
+              "projectPath": "D:\\ProjecttsPortfolio\\TrainerApp\\TrainerApp.Application\\TrainerApp.Application.csproj"
+            },
             "D:\\ProjecttsPortfolio\\TrainerApp\\TrainerApp.Domain\\TrainerApp.Domain.csproj": {
               "projectPath": "D:\\ProjecttsPortfolio\\TrainerApp\\TrainerApp.Domain\\TrainerApp.Domain.csproj"
             }

@@ -1,109 +1,56 @@
+using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using TrainerApp.Application.Interfaces;
+using TrainerApp.Application.Interfaces.Repositories;
 using TrainerApp.Domain.Entities;
-using TrainerApp.Infrastructure.Persistence;
 
 namespace TrainerApp.Application.Services;
 
 public class ScheduleService : IScheduleService
 {
-    private readonly AppDbContext _context;
+    private readonly IScheduleRepository _repo;
 
-    public ScheduleService(AppDbContext context)
+    public ScheduleService(IScheduleRepository repo)
     {
-        _context = context;
+        _repo = repo;
     }
 
-    public async Task<IEnumerable<object>> GetAllSlotsAsync()
-    {
-        return await _context.ScheduleSlots
-            .Include(s => s.Clients)
-            .OrderBy(s => s.StartAt)
-            .Select(s => new
-            {
-                s.Id,
-                s.StartAt,
-                s.EndAt,
-                s.MaxClients,
-                CurrentClients = s.Clients.Count,
-                IsOnline = s.IsOnline,
-                Link = s.OnlineMeetingUrl
+    public Task<IEnumerable<object>> GetAllSlotsAsync() =>
+        _repo.GetAllSlotsAsync();
 
-            })
-            .ToListAsync();
+    public Task<Guid> CreateSlotAsync(Guid trainerId, DateTime startAt, DateTime endAt, int maxClients, bool isOnline = false,
+        string? link = null)
+    {
+       return _repo.CreateSlotAsync(trainerId, startAt, endAt, maxClients, isOnline, link);
     }
 
-    public async Task<Guid> CreateSlotAsync(Guid trainerId, DateTime startAt, DateTime endAt, int maxClient,bool isOnline = false, string? link = null)
+    public Task JoinSlotAsync(Guid clientId, Guid slotId)
     {
-        var slot = new ScheduleSlot
-        {
-            Id = Guid.NewGuid(),
-            TrainerId = trainerId,
-            StartAt = startAt,
-            EndAt = endAt,
-            MaxClients = maxClient,
-            IsOnline = isOnline,
-            OnlineMeetingUrl = link
-
-        };
-        if (isOnline && string.IsNullOrWhiteSpace(slot.OnlineMeetingUrl))
-        {
-            var trainer = await _context.Users.OfType<Trainer>().FirstOrDefaultAsync(t => t.Id == trainerId);
-            if (trainer != null && !string.IsNullOrWhiteSpace(trainer.Email))
-            {
-                slot.OnlineMeetingUrl = $"facetime://{trainer.Email}";
-            }
-            else
-            {
-                slot.OnlineMeetingUrl = $"facetime://{Guid.NewGuid()}";
-            }
-        }
-
-
-        _context.ScheduleSlots.Add(slot);
-        await _context.SaveChangesAsync();
-        return slot.Id;
+       return _repo.JoinSlotAsync(clientId, slotId);
     }
 
-    public async Task JoinSlotAsync(Guid clientId, Guid slotId)
+    public Task LeaveSlotAsync(Guid clientId, Guid slotId)
     {
-        var slot = await _context.ScheduleSlots
-            .Include(s => s.Clients)
-            .FirstOrDefaultAsync(s => s.Id == slotId)
-            ?? throw new KeyNotFoundException("Slot not found.");
-
-        if (slot.Clients.Any(c => c.Id == clientId))
-            throw new InvalidOperationException("You are already registered.");
-
-        if (slot.Clients.Count >= slot.MaxClients)
-            throw new InvalidOperationException("Slot is full.");
-
-        var client = await _context.Users.OfType<Client>().FirstAsync(c => c.Id == clientId);
-        slot.Clients.Add(client);
-        await _context.SaveChangesAsync();
+       return _repo.LeaveSlotAsync(clientId, slotId);
     }
 
-    public async Task LeaveSlotAsync(Guid clientId, Guid slotId)
+    public Task DeleteSlotAsync(Guid trainerId, Guid slotId)
     {
-        var slot = await _context.ScheduleSlots
-            .Include(s => s.Clients)
-            .FirstOrDefaultAsync(s => s.Id == slotId)
-            ?? throw new KeyNotFoundException("Slot not found.");
-
-        var client = slot.Clients.FirstOrDefault(c => c.Id == clientId)
-                     ?? throw new InvalidOperationException("You are not registered.");
-
-        slot.Clients.Remove(client);
-        await _context.SaveChangesAsync();
+       return _repo.DeleteSlotAsync(trainerId, slotId);
+    }
+    public Task<Guid> GetTrainerIdAsync(ClaimsPrincipal userClaims)
+    {
+        var claim = userClaims.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (claim == null || !Guid.TryParse(claim, out var trainerId))
+            throw new UnauthorizedAccessException("User is not a trainer.");
+        return Task.FromResult(trainerId);
     }
 
-    public async Task DeleteSlotAsync(Guid trainerId, Guid slotId)
+    public Task<Guid> GetClientIdAsync(ClaimsPrincipal userClaims)
     {
-        var slot = await _context.ScheduleSlots
-            .FirstOrDefaultAsync(s => s.Id == slotId && s.TrainerId == trainerId)
-            ?? throw new KeyNotFoundException("Slot not found or not yours.");
-
-        _context.ScheduleSlots.Remove(slot);
-        await _context.SaveChangesAsync();
+        var claim = userClaims.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (claim == null || !Guid.TryParse(claim, out var clientId))
+            throw new UnauthorizedAccessException("User is not a client.");
+        return Task.FromResult(clientId);
     }
 }

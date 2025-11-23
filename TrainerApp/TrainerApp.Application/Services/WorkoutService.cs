@@ -1,38 +1,43 @@
+using System.Security.Claims;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TrainerApp.Application.DTOs;
 using TrainerApp.Application.Interfaces;
+using TrainerApp.Application.Interfaces.Repositories;
 using TrainerApp.Domain.Entities;
-using TrainerApp.Infrastructure.Persistence;
 
 namespace TrainerApp.Application.Services;
 
 public class WorkoutService : IWorkoutService
 {
-    private readonly AppDbContext _context;
+    private readonly IWorkoutRepository _repository;
 
-    public WorkoutService(AppDbContext context)
+    private readonly IMapper _mapper;
+
+    public WorkoutService(IWorkoutRepository repository, IMapper mapper)
     {
-        _context = context;
+        _repository = repository;
+        _mapper = mapper;
+    }
+    public async Task<Guid> GetTrainerIdAsync(ClaimsPrincipal userClaims)
+    {
+        var idClaim = userClaims.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (idClaim == null || !Guid.TryParse(idClaim, out var trainerId))
+            throw new UnauthorizedAccessException("Користувач не є тренером.");
+
+        return trainerId;
     }
 
     public async Task<IEnumerable<WorkoutSessionDto>> GetTrainerWorkoutsAsync(Guid trainerId)
     {
-        var sessions = await _context.WorkoutSessions
-            .Include(w => w.ExerciseRecords)
-            .Where(w => w.TrainerId == trainerId)
-            .OrderByDescending(w => w.CreatedAt)
-            .ToListAsync();
-
-        return sessions.Select(MapToDto);
+        var sessions = await _repository.GetTrainerWorkoutsAsync(trainerId);
+        return sessions.Select(s => _mapper.Map<WorkoutSessionDto>(s));
     }
 
     public async Task<WorkoutSessionDto?> GetWorkoutByIdAsync(Guid trainerId, Guid workoutId)
     {
-        var session = await _context.WorkoutSessions
-            .Include(w => w.ExerciseRecords)
-            .FirstOrDefaultAsync(w => w.TrainerId == trainerId && w.Id == workoutId);
-
-        return session == null ? null : MapToDto(session);
+        var workout = await _repository.GetWorkoutByIdAsync(trainerId, workoutId);
+        return workout == null ? null : _mapper.Map<WorkoutSessionDto>(workout);
     }
 
     public async Task<Guid> CreateWorkoutAsync(Guid trainerId, CreateWorkoutDto dto)
@@ -55,26 +60,19 @@ public class WorkoutService : IWorkoutService
             }).ToList()
         };
 
-        _context.WorkoutSessions.Add(workout);
-        await _context.SaveChangesAsync();
+        await _repository.AddWorkoutAsync(workout);
 
         return workout.Id;
     }
 
     public async Task UpdateWorkoutAsync(Guid trainerId, Guid workoutId, CreateWorkoutDto dto)
     {
-        var workout = await _context.WorkoutSessions
-            .Include(w => w.ExerciseRecords)
-            .FirstOrDefaultAsync(w => w.Id == workoutId && w.TrainerId == trainerId);
-
-        if (workout == null)
-            throw new KeyNotFoundException("Тренування не знайдено.");
+        var workout = await _repository.GetWorkoutByIdAsync(trainerId, workoutId)
+                      ?? throw new KeyNotFoundException("Тренування не знайдено.");
 
         workout.Title = dto.Title;
         workout.Notes = dto.Notes;
         workout.ClientId = dto.ClientId;
-
-        _context.ExerciseRecords.RemoveRange(workout.ExerciseRecords);
 
         workout.ExerciseRecords = dto.Exercises.Select(e => new ExerciseRecord
         {
@@ -85,34 +83,13 @@ public class WorkoutService : IWorkoutService
             WeightKg = e.Weight
         }).ToList();
 
-        await _context.SaveChangesAsync();
+        await _repository.UpdateWorkoutAsync(workout);
     }
-
     public async Task DeleteWorkoutAsync(Guid trainerId, Guid workoutId)
     {
-        var workout = await _context.WorkoutSessions
-            .FirstOrDefaultAsync(w => w.Id == workoutId && w.TrainerId == trainerId);
+        var workout = await _repository.GetWorkoutByIdAsync(trainerId, workoutId)
+                      ?? throw new KeyNotFoundException("Тренування не знайдено.");
 
-        if (workout == null)
-            throw new KeyNotFoundException("Тренування не знайдено.");
-
-        _context.WorkoutSessions.Remove(workout);
-        await _context.SaveChangesAsync();
+        await _repository.DeleteWorkoutAsync(workout);
     }
-
-    private static WorkoutSessionDto MapToDto(WorkoutSession w) => new()
-    {
-        Id = w.Id,
-        Title = w.Title,
-        Notes = w.Notes,
-        CreatedAt = w.CreatedAt,
-        Exercises = w.ExerciseRecords.Select(e => new ExerciseRecordDto
-        {
-            Id = e.Id,
-            Name = e.Name,
-            Sets = e.Sets,
-            Reps = e.Reps,
-            Weight = e.WeightKg
-        })
-    };
 }

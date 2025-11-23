@@ -12,26 +12,18 @@ namespace TrainerApp.API.Controllers;
 public class ClientController : ControllerBase
 {
     private readonly IClientService _clientService;
-    private readonly UserManager<User> _userManager;
 
-    public ClientController(IClientService clientService, UserManager<User> userManager)
+    public ClientController(IClientService clientService)
     {
         _clientService = clientService;
-        _userManager = userManager;
     }
 
-    private async Task<Guid> GetClientIdAsync()
-    {
-        var user = await _userManager.GetUserAsync(User) as Client;
-        if (user == null)
-            throw new UnauthorizedAccessException("Користувач не є клієнтом.");
-        return user.Id;
-    }
+  
 
     [HttpGet("trainings")]
     public async Task<IActionResult> GetMyTrainings()
     {
-        var clientId = await GetClientIdAsync();
+        var clientId = await _clientService.GetClientIdAsync(User);
         var result = await _clientService.GetMyTrainingsAsync(clientId);
         return Ok(result);
     }
@@ -39,7 +31,7 @@ public class ClientController : ControllerBase
     [HttpGet("nutrition")]
     public async Task<IActionResult> GetMyNutritionPlan()
     {
-        var clientId = await GetClientIdAsync();
+        var clientId = await _clientService.GetClientIdAsync(User);
         var plan = await _clientService.GetMyNutritionPlanAsync(clientId);
         return Ok(plan);
     }
@@ -47,7 +39,7 @@ public class ClientController : ControllerBase
     [HttpDelete("cancel/{slotId:guid}")]
     public async Task<IActionResult> CancelTraining(Guid slotId)
     {
-        var clientId = await GetClientIdAsync();
+        var clientId = await _clientService.GetClientIdAsync(User);
         await _clientService.CancelTrainingAsync(clientId, slotId);
         return Ok(new { Message = "Ви скасували запис." });
     }
@@ -55,7 +47,7 @@ public class ClientController : ControllerBase
     [HttpPost("progress-photo")]
     public async Task<IActionResult> UploadProgressPhoto([FromForm] IFormFile photo)
     {
-        var clientId = await GetClientIdAsync();
+        var clientId = await _clientService.GetClientIdAsync(User);
         var id = await _clientService.UploadProgressPhotoAsync(clientId, photo);
         return Ok(new { Message = "Фото завантажено успішно.", PhotoId = id });
     }

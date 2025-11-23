@@ -3,11 +3,12 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using TrainerApp.Application.Interfaces;
 using TrainerApp.Domain.Entities;
 
 namespace TrainerApp.Infrastructure.Jwt;
 
-public class JwtTokenGenerator
+public class JwtTokenGenerator: IJwtTokenGenerator
 {
     private readonly IConfiguration _config;
 

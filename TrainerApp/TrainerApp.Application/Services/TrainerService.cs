@@ -1,96 +1,67 @@
+using System.Security.Claims;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TrainerApp.Application.DTOs;
 using TrainerApp.Application.Interfaces;
 using TrainerApp.Domain.Entities;
-using TrainerApp.Infrastructure.Persistence;
+using TrainerApp.Application.Interfaces.Repositories;
 
 namespace TrainerApp.Application.Services;
 
 public class TrainerService : ITrainerService
 {
-    private readonly AppDbContext _context;
+    private readonly ITrainingRepository _repository;
+    private readonly IMapper _mapper;
 
-    public TrainerService(AppDbContext context)
+    public TrainerService(ITrainingRepository repository, IMapper mapper)
     {
-        _context = context;
+        _repository = repository;
+        _mapper = mapper;
     }
+    public async Task<Guid> GetTrainerIdAsync(ClaimsPrincipal userClaims)
+    {
+        var idClaim = userClaims.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (idClaim == null || !Guid.TryParse(idClaim, out var trainerId))
+            throw new UnauthorizedAccessException("Користувач не є тренером.");
 
+        return trainerId;
+    }
     public async Task<IEnumerable<ClientDto>> GetClientsAsync(Guid trainerId)
     {
-        var trainer = await _context.Trainers
-            .Include(t => t.Clients)
-            .FirstOrDefaultAsync(t => t.Id == trainerId)
-            ?? throw new KeyNotFoundException("Тренера не знайдено.");
+        var trainer = await _repository.GetTrainerWithClientsAsync(trainerId)
+                      ?? throw new KeyNotFoundException("Тренера не знайдено.");
 
-        return trainer.Clients.Select(c => new ClientDto
-        {
-            Id = c.Id,
-            FullName = $"{c.FirstName} {c.LastName}",
-            Email = c.Email ?? string.Empty,
-            Birthdate = c.Birthdate
-        }).ToList();
+        return trainer.Clients.Select(c => _mapper.Map<ClientDto>(c)).ToList();
     }
 
     public async Task<IEnumerable<NutritionPlanDto>> GetNutritionPlansAsync(Guid trainerId)
     {
-        var plans = await _context.NutritionPlans
-            .Where(p => p.TrainerId == trainerId)
-            .ToListAsync();
-
-        return plans.Select(p => new NutritionPlanDto
-        {
-            Id = p.Id,
-            Title = p.Title,
-            Notes = p.Notes,
-            ClientId = p.ClientId
-        });
+        var plans = await _repository.GetNutritionPlansAsync(trainerId);
+        return plans.Select(p => _mapper.Map<NutritionPlanDto>(p)).ToList();
     }
 
     public async Task<IEnumerable<WorkoutSessionDto>> GetWorkoutSessionsAsync(Guid trainerId)
     {
-        var sessions = await _context.WorkoutSessions
-            .Where(s => s.TrainerId == trainerId)
-            .ToListAsync();
-
-        return sessions.Select(s => new WorkoutSessionDto
-        {
-            Id = s.Id,
-            Date = s.Date,
-            ClientId = s.ClientId,
-            Notes = s.Notes ?? ""
-        });
+        var sessions = await _repository.GetWorkoutSessionsAsync(trainerId);
+        return sessions.Select(s => _mapper.Map<WorkoutSessionDto>(s)).ToList();
     }
 
     public async Task AddOrUpdateNutritionPlanAsync(Guid trainerId, NutritionPlanDto dto)
     {
-        var clientExists = await _context.Clients.AnyAsync(c => c.Id == dto.ClientId);
-        if (!clientExists)
-            throw new KeyNotFoundException("Клієнта не знайдено.");
-
-        NutritionPlan? plan = null;
-
-        if (dto.Id != Guid.Empty)
+        if (dto.Id == Guid.Empty)
         {
-            plan = await _context.NutritionPlans.FirstOrDefaultAsync(p => p.Id == dto.Id);
-            if (plan == null)
-                throw new KeyNotFoundException("План не знайдено.");
-            
-            plan.Title = dto.Title;
-            plan.Notes = dto.Notes;
+            var plan = _mapper.Map<NutritionPlan>(dto);
+            plan.TrainerId = trainerId;
+            await _repository.AddNutritionPlanAsync(plan);
         }
         else
         {
-            plan = new NutritionPlan
-            {
-                Id = Guid.NewGuid(),
-                Title = dto.Title,
-                Notes = dto.Notes,
-                ClientId = dto.ClientId,
-                TrainerId = trainerId
-            };
-            _context.NutritionPlans.Add(plan);
-        }
+            var plan = await _repository.GetNutritionPlanByIdAsync(dto.Id)
+                       ?? throw new KeyNotFoundException("План харчування не знайдено.");
 
-        await _context.SaveChangesAsync();
+            plan.Title = dto.Title;
+            plan.Notes = dto.Notes;
+            await _repository.UpdateNutritionPlanAsync(plan);
+        }
     }
 }

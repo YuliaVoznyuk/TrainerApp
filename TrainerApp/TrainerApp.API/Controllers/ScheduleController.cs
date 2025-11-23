@@ -14,12 +14,10 @@ namespace TrainerApp.API.Controllers;
 public class ScheduleController : ControllerBase
 {
     private readonly IScheduleService _service;
-    private readonly UserManager<User> _userManager;
 
-    public ScheduleController(IScheduleService service, UserManager<User> userManager)
+    public ScheduleController(IScheduleService service)
     {
         _service = service;
-        _userManager = userManager;
     }
 
     [HttpGet]
@@ -31,10 +29,8 @@ public class ScheduleController : ControllerBase
     [Authorize(Roles = "Trainer")]
     public async Task<IActionResult> Create([FromBody] CreateSlotDto dto)
     {
-        var trainer = await _userManager.GetUserAsync(User) as Trainer
-                      ?? throw new UnauthorizedAccessException("User is not a trainer.");
-
-        var id = await _service.CreateSlotAsync(trainer.Id, dto.StartAt, dto.EndAt, dto.MaxClients, dto.IsOnline, dto.link);
+        var trainerId = await _service.GetTrainerIdAsync(User);
+        var id = await _service.CreateSlotAsync(trainerId, dto.StartAt, dto.EndAt, dto.MaxClients, dto.IsOnline, dto.link);
         return Ok(new { Message = "Slot created", Id = id });
     }
 
@@ -42,10 +38,8 @@ public class ScheduleController : ControllerBase
     [Authorize(Roles = "Client")]
     public async Task<IActionResult> Join(Guid slotId)
     {
-        var client = await _userManager.GetUserAsync(User) as Client
-                     ?? throw new UnauthorizedAccessException("User is not a client.");
-
-        await _service.JoinSlotAsync(client.Id, slotId);
+        var clientId = await _service.GetClientIdAsync(User);
+        await _service.JoinSlotAsync(clientId, slotId);
         return Ok(new { Message = "Joined slot successfully." });
     }
 
@@ -53,21 +47,18 @@ public class ScheduleController : ControllerBase
     [Authorize(Roles = "Client")]
     public async Task<IActionResult> Leave(Guid slotId)
     {
-        var client = await _userManager.GetUserAsync(User) as Client
-                     ?? throw new UnauthorizedAccessException("User is not a client.");
-
-        await _service.LeaveSlotAsync(client.Id, slotId);
+        var clientId = await _service.GetClientIdAsync(User);
+        await _service.LeaveSlotAsync(clientId, slotId);
         return Ok(new { Message = "Left slot successfully." });
     }
+
 
     [HttpDelete("{slotId:guid}")]
     [Authorize(Roles = "Trainer")]
     public async Task<IActionResult> Delete(Guid slotId)
     {
-        var trainer = await _userManager.GetUserAsync(User) as Trainer
-                      ?? throw new UnauthorizedAccessException("User is not a trainer.");
-
-        await _service.DeleteSlotAsync(trainer.Id, slotId);
+        var trainerId = await _service.GetTrainerIdAsync(User);
+        await _service.DeleteSlotAsync(trainerId, slotId);
         return Ok(new { Message = "Slot deleted." });
     }
 }

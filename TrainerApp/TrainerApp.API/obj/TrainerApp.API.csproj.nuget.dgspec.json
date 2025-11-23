@@ -133,9 +133,6 @@
             "projectReferences": {
               "D:\\ProjecttsPortfolio\\TrainerApp\\TrainerApp.Domain\\TrainerApp.Domain.csproj": {
                 "projectPath": "D:\\ProjecttsPortfolio\\TrainerApp\\TrainerApp.Domain\\TrainerApp.Domain.csproj"
-              },
-              "D:\\ProjecttsPortfolio\\TrainerApp\\TrainerApp.Infrastructure\\TrainerApp.Infrastructure.csproj": {
-                "projectPath": "D:\\ProjecttsPortfolio\\TrainerApp\\TrainerApp.Infrastructure\\TrainerApp.Infrastructure.csproj"
               }
             }
           }
@@ -292,6 +289,9 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
+              "D:\\ProjecttsPortfolio\\TrainerApp\\TrainerApp.Application\\TrainerApp.Application.csproj": {
+                "projectPath": "D:\\ProjecttsPortfolio\\TrainerApp\\TrainerApp.Application\\TrainerApp.Application.csproj"
+              },
               "D:\\ProjecttsPortfolio\\TrainerApp\\TrainerApp.Domain\\TrainerApp.Domain.csproj": {
                 "projectPath": "D:\\ProjecttsPortfolio\\TrainerApp\\TrainerApp.Domain\\TrainerApp.Domain.csproj"
               }

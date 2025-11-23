@@ -1,31 +1,37 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TrainerApp.Application.DTOs;
+using TrainerApp.Application.Interfaces.Repositories;
 using TrainerApp.Domain.Entities;
-using TrainerApp.Infrastructure.Persistence;
 
 namespace TrainerApp.Application.Services;
 
 public class ClientService : IClientService
 {
-    private readonly AppDbContext _context;
+    private readonly IClientRepository _repo;
     private readonly IWebHostEnvironment _env;
+    private readonly UserManager<User> _userManager;
+    
 
-    public ClientService(AppDbContext context, IWebHostEnvironment env)
+
+    public ClientService(IClientRepository repo,UserManager<User> userManager, IWebHostEnvironment env)
     {
-        _context = context;
+        _repo = repo;
+        _userManager = userManager;
         _env = env;
     }
-
+    public async Task<Guid> GetClientIdAsync(ClaimsPrincipal userClaims)
+    {
+        var client = await _userManager.GetUserAsync(userClaims) as Client
+                     ?? throw new UnauthorizedAccessException("Користувач не є клієнтом.");
+        return client.Id;
+    }
     public async Task<IEnumerable<ClientTrainingDto>> GetMyTrainingsAsync(Guid clientId)
     {
-        var slots = await _context.ScheduleSlots
-            .Include(s => s.Trainer)
-            .Include(s => s.Clients)
-            .Where(s => s.Clients.Any(c => c.Id == clientId))
-            .OrderBy(s => s.StartAt)
-            .ToListAsync();
+        var slots = await _repo.GetClientTrainingsAsync(clientId);
 
         return slots.Select(s => new ClientTrainingDto
         {
@@ -38,8 +44,7 @@ public class ClientService : IClientService
 
     public async Task<ClientNutritionDto?> GetMyNutritionPlanAsync(Guid clientId)
     {
-        var plan = await _context.NutritionPlans
-            .FirstOrDefaultAsync(p => p.ClientId == clientId);
+        var plan = await _repo.GetClientNutritionPlanAsync(clientId);
 
         return plan == null
             ? null
@@ -53,21 +58,16 @@ public class ClientService : IClientService
 
     public async Task CancelTrainingAsync(Guid clientId, Guid slotId)
     {
-        var slot = await _context.ScheduleSlots
-            .Include(s => s.Clients)
-            .FirstOrDefaultAsync(s => s.Id == slotId);
+        var slot = await _repo.GetSlotByIdAsync(slotId)
+                   ?? throw new KeyNotFoundException("Слот не знайдено.");
 
-        if (slot == null)
-            throw new KeyNotFoundException("Слот не знайдено.");
-
-        var client = await _context.Clients.FindAsync(clientId);
-        if (client == null)
-            throw new KeyNotFoundException("Клієнта не знайдено.");
+        var client = await _repo.GetClientByIdAsync(clientId)
+                     ?? throw new KeyNotFoundException("Клієнта не знайдено.");
 
         if (!slot.Clients.Remove(client))
             throw new InvalidOperationException("Клієнт не був записаний на цей слот.");
 
-        await _context.SaveChangesAsync();
+        await _repo.SaveChangesAsync();
     }
 
     public async Task<Guid> UploadProgressPhotoAsync(Guid clientId, IFormFile photo)
@@ -92,8 +92,8 @@ public class ClientService : IClientService
             UploadedAt = DateTime.UtcNow
         };
 
-        _context.Photos.Add(progressPhoto);
-        await _context.SaveChangesAsync();
+        await _repo.AddProgressPhotoAsync(progressPhoto);
+        await _repo.SaveChangesAsync();
 
         return progressPhoto.Id;
     }
