@@ -87,7 +87,7 @@ public class ClientService : IClientService
         var progressPhoto = new Photo
         {
             Id = Guid.NewGuid(),
-            ClientId = clientId,
+            UserId = clientId,
             Url = $"/progress/{fileName}",
             UploadedAt = DateTime.UtcNow
         };

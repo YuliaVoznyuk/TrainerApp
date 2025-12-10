@@ -150,3 +150,4 @@ D:\ProjecttsPortfolio\TrainerApp\TrainerApp.API\bin\Debug\net9.0\System.Identity
 D:\ProjecttsPortfolio\TrainerApp\TrainerApp.API\bin\Debug\net9.0\TrainerApp.Application.dll
 D:\ProjecttsPortfolio\TrainerApp\TrainerApp.API\bin\Debug\net9.0\TrainerApp.Application.pdb
 D:\ProjecttsPortfolio\TrainerApp\TrainerApp.API\bin\Debug\net9.0\AutoMapper.dll
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.API\obj\Debug\net9.0\TrainerApp.API.sourcelink.json

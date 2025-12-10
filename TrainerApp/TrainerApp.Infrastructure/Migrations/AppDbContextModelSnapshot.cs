@@ -17,7 +17,7 @@ namespace TrainerApp.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.9")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -309,12 +309,6 @@ namespace TrainerApp.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("ClientId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("TrainerId")
-                        .HasColumnType("uuid");
-
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
@@ -325,11 +319,12 @@ namespace TrainerApp.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("TrainerId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Photos");
                 });
@@ -669,19 +664,13 @@ namespace TrainerApp.Infrastructure.Migrations
 
             modelBuilder.Entity("TrainerApp.Domain.Entities.Photo", b =>
                 {
-                    b.HasOne("TrainerApp.Domain.Entities.Client", "Client")
+                    b.HasOne("TrainerApp.Domain.Entities.User", "User")
                         .WithMany("Photos")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("TrainerApp.Domain.Entities.Trainer", "Trainer")
-                        .WithMany("Photos")
-                        .HasForeignKey("TrainerId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Client");
-
-                    b.Navigation("Trainer");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TrainerApp.Domain.Entities.ScheduleSlot", b =>
@@ -744,6 +733,11 @@ namespace TrainerApp.Infrastructure.Migrations
                     b.Navigation("Items");
                 });
 
+            modelBuilder.Entity("TrainerApp.Domain.Entities.User", b =>
+                {
+                    b.Navigation("Photos");
+                });
+
             modelBuilder.Entity("TrainerApp.Domain.Entities.WorkoutSession", b =>
                 {
                     b.Navigation("ExerciseRecords");
@@ -752,8 +746,6 @@ namespace TrainerApp.Infrastructure.Migrations
             modelBuilder.Entity("TrainerApp.Domain.Entities.Client", b =>
                 {
                     b.Navigation("NutritionPlans");
-
-                    b.Navigation("Photos");
 
                     b.Navigation("WorkoutSessions");
                 });
@@ -765,8 +757,6 @@ namespace TrainerApp.Infrastructure.Migrations
                     b.Navigation("Clients");
 
                     b.Navigation("NutritionPlans");
-
-                    b.Navigation("Photos");
 
                     b.Navigation("ScheduleSlots");
                 });

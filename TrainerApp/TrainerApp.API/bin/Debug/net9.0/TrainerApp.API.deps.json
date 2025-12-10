@@ -822,8 +822,8 @@
         "dependencies": {
           "AutoMapper": "15.1.0",
           "FluentValidation": "11.11.0",
-          "TrainerApp.Domain": "1.0.0",
-          "TrainerApp.Infrastructure": "1.0.0"
+          "FluentValidation.AspNetCore": "11.3.1",
+          "TrainerApp.Domain": "1.0.0"
         },
         "runtime": {
           "TrainerApp.Application.dll": {
@@ -834,6 +834,7 @@
       },
       "TrainerApp.Domain/1.0.0": {
         "dependencies": {
+          "FluentValidation.AspNetCore": "11.3.1",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "9.0.0-preview.1.24081.5"
         },
         "runtime": {
@@ -845,9 +846,11 @@
       },
       "TrainerApp.Infrastructure/1.0.0": {
         "dependencies": {
+          "FluentValidation.AspNetCore": "11.3.1",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.1",
           "Swashbuckle.AspNetCore.SwaggerGen": "9.0.6",
           "System.IdentityModel.Tokens.Jwt": "8.14.0",
+          "TrainerApp.Application": "1.0.0",
           "TrainerApp.Domain": "1.0.0"
         },
         "runtime": {

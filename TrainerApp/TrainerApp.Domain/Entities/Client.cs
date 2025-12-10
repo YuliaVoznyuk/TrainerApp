@@ -8,7 +8,6 @@ public class Client: User
     public Trainer Trainer { get; set; } = null!;
     public ICollection<WorkoutSession> WorkoutSessions { get; set; } = new List<WorkoutSession>();
     public ICollection<NutritionPlan> NutritionPlans { get; set; } = new List<NutritionPlan>();
-    public ICollection<Photo> Photos { get; set; } = new List<Photo>();
     public ICollection<ScheduleSlot> ScheduleSlots { get; set; } = new List<ScheduleSlot>();
 
 }

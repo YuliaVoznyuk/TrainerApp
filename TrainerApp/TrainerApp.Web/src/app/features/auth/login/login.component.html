@@ -1,10 +1,48 @@
-<div class="login-container">
-  <h2>Login Page</h2>
-  <form>
-    <label>Email:</label>
-    <input type="email" />
-    <label>Password:</label>
-    <input type="password" />
-    <button type="submit">Login</button>
-  </form>
+<div class="page">
+  <div class="hero-bg"></div>
+
+  <div class="login-card">
+    <h1 class="brand">
+      <span>Trainer</span><span class="accent">App</span>
+    </h1>
+
+    <p class="subtitle">Панель тренера — керуй своїми клієнтами</p>
+
+    <form (ngSubmit)="login()">
+      <div class="input-group">
+        <label>Email</label>
+        <input
+          type="email"
+          [(ngModel)]="email"
+          name="email"
+          placeholder="coach@trainer.com"
+          required
+        />
+      </div>
+
+      <div class="input-group">
+        <label>Пароль</label>
+        <input
+          type="password"
+          [(ngModel)]="password"
+          name="password"
+          placeholder="••••••••"
+          required
+        />
+      </div>
+
+      <!-- Кнопка входу -->
+      <button type="submit" class="btn-primary">Увійти</button>
+
+     <div class="links">
+  <button type="button" class="text-link">
+    Забули пароль?
+  </button>
+
+  <button type="button" class="text-link accent" (click)="goToRegister()">
+    Створити акаунт
+  </button>
+</div>
+    </form>
+  </div>
 </div>

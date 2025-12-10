@@ -5,6 +5,8 @@ import { RouterOutlet } from '@angular/router'; // standalone модуль дл�
   selector: 'app-root',
   standalone: true,         // робимо компонент standalone
   imports: [RouterOutlet],  // імпортуємо всі потрібні модулі (тут лише маршрутизацію)
-  template: `<router-outlet></router-outlet>`
+ templateUrl: './app.html',
+styleUrls: ['./app.scss'],
+
 })
 export class AppComponent {}

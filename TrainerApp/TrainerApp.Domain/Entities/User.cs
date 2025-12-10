@@ -9,4 +9,7 @@ public abstract class User: IdentityUser<Guid>
     public string? LastName { get; set; }
     public string? Middlename { get; set; }
     public DateTime Birthdate { get; set; }
+    
+    public List<Photo> Photos { get; set; } = new();
+
 }

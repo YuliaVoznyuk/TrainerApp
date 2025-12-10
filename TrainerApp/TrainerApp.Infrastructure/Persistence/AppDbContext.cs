@@ -86,16 +86,11 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<Guid>, Guid>
 
             // Photo <-> Trainer / Client
             builder.Entity<Photo>()
-                .HasOne(p => p.Trainer)
-                .WithMany(t => t.Photos)
-                .HasForeignKey(p => p.TrainerId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Photo>()
-                .HasOne(p => p.Client)
-                .WithMany(c => c.Photos)
-                .HasForeignKey(p => p.ClientId)
+                .HasOne(p => p.User)
+                .WithMany(u => u.Photos)
+                .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
             builder.Entity<Certificate>()
                 .HasOne(c => c.Trainer)
                 .WithMany(t => t.Certificates)

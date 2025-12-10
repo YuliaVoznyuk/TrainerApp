@@ -10,5 +10,4 @@ public class Trainer: User
     public ICollection<ScheduleSlot> ScheduleSlots { get; set; } = new List<ScheduleSlot>();
     public ICollection<Client> Clients { get; set; } = new List<Client>();
     public ICollection<NutritionPlan> NutritionPlans { get; set; } = new List<NutritionPlan>();
-    public ICollection<Photo> Photos { get; set; } = new List<Photo>();
 }

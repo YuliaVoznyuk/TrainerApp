@@ -1,6 +1,8 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrainerApp.Application.Interfaces;
+using TrainerApp.Application.Interfaces.FileStorage;
 using TrainerApp.Domain.Enums;
 
 namespace TrainerApp.API.Controllers;
@@ -11,81 +13,35 @@ namespace TrainerApp.API.Controllers;
 public class PhotoController : ControllerBase
 {
     private readonly IPhotoService _photoService;
+    private readonly IFileStorage _fileStorage;
 
-    public PhotoController(IPhotoService photoService)
+    public PhotoController(IPhotoService photoService, IFileStorage fileStorage)
     {
         _photoService = photoService;
+        _fileStorage = fileStorage;
     }
 
-    // 🔹 Отримати ID користувача з JWT Claims
-    private Guid GetUserId()
+    private Guid GetUserId() =>
+        Guid.Parse(User.Claims.First(c => c.Type == "id").Value);
+
+    private string GetRole() =>
+        User.Claims.First(c => c.Type == ClaimTypes.Role).Value;
+
+    [HttpPost("upload")]
+    public async Task<IActionResult> Upload([FromForm] IFormFile photo, [FromQuery] PhotoType type)
     {
-        var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "id")?.Value;
-        if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out var userId))
-        {
-            throw new UnauthorizedAccessException("Invalid user ID in token.");
-        }
-        return userId;
+        if (photo == null) return BadRequest("Photo is required");
+
+        var url = await _fileStorage.SaveFileAsync(photo.OpenReadStream(), photo.FileName, "uploads");
+
+        var id = await _photoService.UploadAsync(GetUserId(), GetRole(), url, type);
+
+        return Ok(new { PhotoId = id });
     }
-
-    // -----------------------------
-    // CLIENT ACTIONS
-    // -----------------------------
-
-    [HttpPost("client/upload")]
-    [Authorize(Roles = "Client")]
-    public async Task<IActionResult> UploadClientPhoto([FromForm] IFormFile photo, [FromQuery] PhotoType type = PhotoType.Personal)
+    [HttpGet]
+    public async Task<IActionResult> Get()
     {
-        if (photo == null || photo.Length == 0)
-            return BadRequest("Photo is required.");
-
-        // Тут можна додати логіку збереження файлу на диск або хмару
-        var fileName = $"{Guid.NewGuid()}_{photo.FileName}";
-        var filePath = Path.Combine("Uploads", fileName);
-        Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
-
-        await using var stream = System.IO.File.Create(filePath);
-        await photo.CopyToAsync(stream);
-
-        var photoId = await _photoService.UploadClientPhotoAsync(GetUserId(), filePath, type);
-        return Ok(new { Message = "Фото завантажено.", PhotoId = photoId });
-    }
-
-    [HttpGet("client")]
-    [Authorize(Roles = "Client")]
-    public async Task<IActionResult> GetClientPhotos()
-    {
-        var photos = await _photoService.GetClientPhotosAsync(GetUserId());
-        return Ok(photos);
-    }
-
-    // -----------------------------
-    // TRAINER ACTIONS
-    // -----------------------------
-
-    [HttpPost("trainer/upload")]
-    [Authorize(Roles = "Trainer")]
-    public async Task<IActionResult> UploadTrainerPhoto([FromForm] IFormFile photo, [FromQuery] PhotoType type = PhotoType.Personal)
-    {
-        if (photo == null || photo.Length == 0)
-            return BadRequest("Photo is required.");
-
-        var fileName = $"{Guid.NewGuid()}_{photo.FileName}";
-        var filePath = Path.Combine("Uploads", fileName);
-        Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
-
-        await using var stream = System.IO.File.Create(filePath);
-        await photo.CopyToAsync(stream);
-
-        var photoId = await _photoService.UploadTrainerPhotoAsync(GetUserId(), filePath, type);
-        return Ok(new { Message = "Фото завантажено.", PhotoId = photoId });
-    }
-
-    [HttpGet("trainer")]
-    [Authorize(Roles = "Trainer")]
-    public async Task<IActionResult> GetTrainerPhotos()
-    {
-        var photos = await _photoService.GetTrainerPhotosAsync(GetUserId());
+        var photos = await _photoService.GetUserPhotosAsync(GetUserId());
         return Ok(photos);
     }
 }

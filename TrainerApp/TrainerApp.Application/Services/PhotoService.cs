@@ -7,26 +7,44 @@ namespace TrainerApp.Application.Services;
 
 public class PhotoService : IPhotoService
 {
-    private readonly IPhotoRepository _photoRepository;
+    private readonly IPhotoRepository _repo;
 
-    public PhotoService(IPhotoRepository photoRepository)
+    public PhotoService(IPhotoRepository repo)
     {
-        _photoRepository = photoRepository;
+        _repo = repo;
     }
 
-    public async Task<Guid> UploadClientPhotoAsync(Guid clientId, string url, PhotoType type)
+    public async Task<Guid> UploadAsync(Guid userId, string role, string url, PhotoType type)
     {
-        return await _photoRepository.AddPhotoAsync(clientId, url, type);
+        ValidatePhotoType(role, type);
+
+        var photo = new Photo
+        {
+            Url = url,
+            Type = type,
+            UserId = userId
+        };
+
+        return await _repo.AddAsync(photo);
     }
 
-    public async Task<Guid> UploadTrainerPhotoAsync(Guid trainerId, string url, PhotoType type)
+    public async Task<IEnumerable<Photo>> GetUserPhotosAsync(Guid userId)
     {
-        return await _photoRepository.AddPhotoAsync(trainerId, url, type);
+        return await _repo.GetUserPhotosAsync(userId);
     }
 
-    public Task<IEnumerable<Photo>> GetClientPhotosAsync(Guid clientId) =>
-        _photoRepository.GetClientPhotosAsync(clientId);
+    private void ValidatePhotoType(string role, PhotoType type)
+    {
+        if (role == "Client")
+        {
+            if (type is not (PhotoType.Before or PhotoType.After or PhotoType.Personal))
+                throw new ArgumentException($"Client cannot upload: {type}");
+        }
 
-    public Task<IEnumerable<Photo>> GetTrainerPhotosAsync(Guid trainerId) =>
-        _photoRepository.GetTrainerPhotosAsync(trainerId);
+        if (role == "Trainer")
+        {
+            if (type is not (PhotoType.Personal or PhotoType.Certificate))
+                throw new ArgumentException($"Trainer cannot upload: {type}");
+        }
+    }
 }

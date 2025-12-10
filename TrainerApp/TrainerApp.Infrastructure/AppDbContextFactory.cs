@@ -1,0 +1,27 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
+using TrainerApp.Infrastructure.Persistence;
+
+namespace TrainerApp.Infrastructure;
+
+public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
+{
+    public AppDbContext CreateDbContext(string[] args)
+    {
+        // Вказуємо шлях до API — там лежить правильний appsettings.json
+        var basePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "TrainerApp.API");
+
+        IConfigurationRoot configuration = new ConfigurationBuilder()
+            .SetBasePath(basePath)
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
+            .Build();
+
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+        var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+        optionsBuilder.UseNpgsql(connectionString);
+
+        return new AppDbContext(optionsBuilder.Options);
+    }
+}

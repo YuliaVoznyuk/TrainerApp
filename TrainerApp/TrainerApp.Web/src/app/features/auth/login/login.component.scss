@@ -1,7 +1,166 @@
-.login-container {
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+/* === BASE COLORS === */
+:root {
+  --accent: #00eaff;
+  --accent-dark: #00bcd4;
+  --text: #e5e9f0;
+  --bg-dark: #0f1117;
+}
+
+/* === PAGE === */
+.page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg-dark);
+  overflow: hidden;
+  padding: 0; /* додано для точного вирівнювання */
+  margin: 0;
+}
+.links a:last-child {
+  color: var(--accent);
+  font-weight: 600;
+  cursor: pointer;
+}
+.links a:last-child:hover {
+  opacity: 0.8;
+}
+
+/* === BACKGROUND GRADIENT + GLOW === */
+.hero-bg {
+  position: absolute;
+    pointer-events: none;
+
+  inset: 0;
+  background: radial-gradient(60% 60% at 50% 10%, #203040, #0f1117);
+  filter: blur(60px);
+  z-index: 0;
+}
+
+/* === CARD === */
+.login-card {
+  width: 520px;
+  padding: 48px 36px;
+   z-index: 9999 !important;
+  position: relative;
+  border-radius: 20px;
+  background: rgba(20, 24, 32, 0.6);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+  text-align: center;
+}
+
+/* === BRAND === */
+.brand {
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 8px;
+  color: white;
+}
+
+.brand .accent {
+  color: var(--accent);
+}
+
+/* === TEXT === */
+.subtitle {
+  font-size: 16px;
+  color: #9fa7b2;
+  margin-bottom: 30px;
+}
+
+/* === INPUTS === */
+.input-group {
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid transparent;
+  font-size: 16px;
+  color: var(--text);
+  transition: 0.25s;
+    box-sizing: border-box; /* важливо для точного вирівнювання */
+
+}
+
+input:focus {
+  border: 1px solid var(--accent);
+  background: rgba(255, 255, 255, 0.12);
+  outline: none;
+}
+
+/* === BUTTON === */
+.btn-primary {
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 600;
+  border: none;
+  color: white;
+  background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+  cursor: pointer;
+  transition: 0.25s ease;
+  margin-top: 6px;
+    margin-top: 12px; /* трохи збільшено для рівності з input */
+
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* === LINKS === */
+.links {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  z-index: 99999;
+}
+
+.links a {
+  color: #8b94a6;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.links a:hover {
+  color: var(--accent);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 600px) {
+  .login-card {
+    width: 92%;
+    padding: 36px 28px;
+  }
+
+  .brand {
+    font-size: 36px;
+  }
+}
+.text-link, .text-link.accent {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  color: #8b94a6;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+
+
+.text-link:hover {
+  opacity: 0.8;
 }

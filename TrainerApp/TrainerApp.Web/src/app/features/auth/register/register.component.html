@@ -1,0 +1,86 @@
+<div class="page">
+  <div class="hero-bg"></div>
+
+  <div class="register-card">
+    <h1 class="brand"><span>Trainer</span><span class="accent">App</span></h1>
+    <p class="subtitle">{{ step === 'role' ? 'Хто ви?' : 'Заповніть ваші дані' }}</p>
+
+    <!-- Крок 1: Вибір ролі -->
+    <div class="role-selection" *ngIf="step === 'role'">
+      <button class="role-btn" [class.active]="role === 'Client'" (click)="selectRole('Client')">
+        <span class="icon">👤</span>
+        <strong>Клієнт</strong>
+        <p>Хочу тренуватися</p>
+      </button>
+      <button class="role-btn" [class.active]="role === 'Trainer'" (click)="selectRole('Trainer')">
+        <span class="icon">💪</span>
+        <strong>Тренер</strong>
+        <p>Хочу вести клієнтів</p>
+      </button>
+    </div>
+
+    <!-- Крок 2: Форма -->
+    <form *ngIf="step === 'details'" (ngSubmit)="register()">
+      <div class="form-grid">
+        <div class="input-group">
+          <label>Ім’я</label>
+          <input type="text" [(ngModel)]="form.firstName" name="firstName" required />
+        </div>
+        <div class="input-group">
+          <label>Прізвище</label>
+          <input type="text" [(ngModel)]="form.lastName" name="lastName" required />
+        </div>
+        <div class="input-group full-width">
+          <label>Email</label>
+          <input type="email" [(ngModel)]="form.email" name="email" required />
+        </div>
+        <div class="input-group full-width">
+          <label>Пароль</label>
+          <input type="password" [(ngModel)]="form.password" name="password" required />
+        </div>
+        <div class="input-group full-width">
+          <label>Підтвердження паролю</label>
+          <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required />
+        </div>
+        <div class="input-group full-width">
+          <label>Дата народження</label>
+          <input type="date" [(ngModel)]="form.birthdate" name="birthdate" required />
+        </div>
+
+        <!-- Поля для клієнта -->
+        <div *ngIf="role === 'Client'" class="input-group full-width">
+          <label>Зріст (см)</label>
+          <input type="number" [(ngModel)]="form.heightCm" name="heightCm" placeholder="175" />
+        </div>
+        <div *ngIf="role === 'Client'" class="input-group full-width">
+          <label>Поточна вага (кг)</label>
+          <input type="number" [(ngModel)]="form.currentWeightKg" name="currentWeightKg" placeholder="75" />
+        </div>
+
+        <!-- Поля для тренера -->
+        <div *ngIf="role === 'Trainer'" class="input-group full-width">
+          <label>Біографія</label>
+          <textarea [(ngModel)]="form.bio" name="bio" rows="4" placeholder="Розкажіть про себе..."></textarea>
+        </div>
+        <div *ngIf="role === 'Trainer'" class="input-group full-width">
+          <label>Посилання на аватар</label>
+          <input type="url" [(ngModel)]="form.avatarUrl" name="avatarUrl" placeholder="https://..." />
+        </div>
+      </div>
+
+      <div class="buttons-row">
+        <button type="button" class="btn-secondary" (click)="goBack()">Назад</button>
+        <button type="submit" class="btn-primary" [disabled]="isLoading">
+          {{ isLoading ? 'Створюємо...' : 'Створити акаунт' }}
+        </button>
+      </div>
+
+      <div class="links">
+        <a (click)="goToLogin(); $event.preventDefault()">Вже є акаунт? Увійти</a>
+      </div>
+    </form>
+
+    <p *ngIf="error" class="error">{{ error }}</p>
+    <p *ngIf="success" class="success">Акаунт створено! Зараз перенаправимо на логін...</p>
+  </div>
+</div>

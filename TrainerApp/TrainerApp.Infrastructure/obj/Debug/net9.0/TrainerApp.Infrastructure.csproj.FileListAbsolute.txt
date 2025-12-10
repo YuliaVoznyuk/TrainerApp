@@ -13,3 +13,8 @@ D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\obj\Debug\net9.0\Trai
 D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\obj\Debug\net9.0\refint\TrainerApp.Infrastructure.dll
 D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\obj\Debug\net9.0\TrainerApp.Infrastructure.pdb
 D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\obj\Debug\net9.0\ref\TrainerApp.Infrastructure.dll
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\bin\Debug\net9.0\TrainerApp.Application.dll
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\bin\Debug\net9.0\TrainerApp.Application.pdb
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\obj\Debug\net9.0\TrainerApp.Infrastructure.sourcelink.json
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\bin\Debug\net9.0\TrainerApp.Infrastructure.runtimeconfig.json
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.Infrastructure\obj\Debug\net9.0\TrainerApp.Infrastructure.genruntimeconfig.cache
