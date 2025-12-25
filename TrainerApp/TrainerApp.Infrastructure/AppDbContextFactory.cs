@@ -9,7 +9,6 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 {
     public AppDbContext CreateDbContext(string[] args)
     {
-        // Вказуємо шлях до API — там лежить правильний appsettings.json
         var basePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "TrainerApp.API");
 
         IConfigurationRoot configuration = new ConfigurationBuilder()

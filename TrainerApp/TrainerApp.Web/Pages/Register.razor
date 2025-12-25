@@ -1,0 +1,187 @@
+@page "/register"
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+@using System.ComponentModel.DataAnnotations
+@using Blazored.LocalStorage
+@inject Blazored.LocalStorage.ILocalStorageService localStorage   
+@using TrainerApp.Web.Services
+@using TrainerApp.Web.Shared.DTOs
+
+<PageTitle>Реєстрація | TrainerApp</PageTitle>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white text-center">
+                    <h4>Реєстрація в TrainerApp</h4>
+                </div>
+                <div class="card-body p-4">
+                    @if (!string.IsNullOrEmpty(successMessage))
+                    {
+                        <div class="alert alert-success text-center">@successMessage</div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger">@errorMessage</div>
+                    }
+
+                    <EditForm Model="registerModel" OnValidSubmit="HandleRegister">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary class="text-danger" />
+
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <InputText type="email" class="form-control" @bind-Value="registerModel.Email" placeholder="example@gmail.com" />
+                            <ValidationMessage For="@(() => registerModel.Email)" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Ім'я</label>
+                            <InputText class="form-control" @bind-Value="registerModel.FirstName" placeholder="Іван" />
+                            <ValidationMessage For="@(() => registerModel.FirstName)" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Прізвище</label>
+                            <InputText class="form-control" @bind-Value="registerModel.LastName" placeholder="Іванов" />
+                            <ValidationMessage For="@(() => registerModel.LastName)" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Дата народження</label>
+                            <InputDate class="form-control" @bind-Value="registerModel.Birthdate" />
+                            <ValidationMessage For="@(() => registerModel.Birthdate)" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Роль</label>
+                            <InputSelect class="form-select" @bind-Value="registerModel.Role">
+                                <option value="">Оберіть роль</option>
+                                <option value="Client">Клієнт</option>
+                                <option value="Trainer">Тренер</option>
+                            </InputSelect>
+                            <ValidationMessage For="@(() => registerModel.Role)" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Пароль</label>
+                            <InputText type="password" class="form-control" @bind-Value="registerModel.Password" placeholder="Мінімум 6 символів" />
+                            <ValidationMessage For="@(() => registerModel.Password)" />
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Підтвердіть пароль</label>
+                            <InputText type="password" class="form-control" @bind-Value="registerModel.ConfirmPassword" />
+                            <ValidationMessage For="@(() => registerModel.ConfirmPassword)" />
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100" disabled="@isLoading">
+                            @if (isLoading)
+                            {
+                                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                <span>Реєстрація...</span>
+                            }
+                            else
+                            {
+                                <strong>Зареєструватися</strong>
+                            }
+                        </button>
+                    </EditForm>
+
+                    <div class="text-center mt-3">
+                        <small>Вже є акаунт? <a href="/login" class="text-primary">Увійти</a></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private RegisterModel registerModel = new();
+    private string? errorMessage;
+    private string? successMessage;
+    private bool isLoading = false;
+
+    private class RegisterModel
+    {
+        [Required(ErrorMessage = "Введіть email")]
+        [EmailAddress(ErrorMessage = "Невірний формат email")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Введіть ім'я")]
+        public string FirstName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Введіть прізвище")]
+        public string LastName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Введіть дату народження")]
+        public DateTime Birthdate { get; set; } = DateTime.Today.AddYears(-18); // за замовчуванням 18 років
+
+        [Required(ErrorMessage = "Оберіть роль")]
+        public string Role { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Введіть пароль")]
+        [MinLength(6, ErrorMessage = "Пароль має бути не менше 6 символів")]
+        public string Password { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Підтвердіть пароль")]
+        [Compare(nameof(Password), ErrorMessage = "Паролі не співпадають")]
+        public string ConfirmPassword { get; set; } = string.Empty;
+    }
+
+    private async Task HandleRegister()
+    {
+        if (registerModel.Password != registerModel.ConfirmPassword)
+        {
+            errorMessage = "Паролі не співпадають";
+            return;
+        }
+
+        isLoading = true;
+        errorMessage = null;
+        var dto = new RegisterDto(
+            Email: registerModel.Email,
+            Password: registerModel.Password,
+            FirstName: registerModel.FirstName,
+            LastName: registerModel.LastName,
+            Birthdate: DateTime.SpecifyKind(registerModel.Birthdate.Date, DateTimeKind.Utc),
+            Role: registerModel.Role
+        );
+        var result = await ApiService.RegisterAsync(dto);
+
+        if (result.Success)
+        {
+            if (!string.IsNullOrEmpty(result.Token))
+            {
+                await localStorage.SetItemAsync("authToken", result.Token);
+            }
+
+            successMessage = result.Message ?? "Реєстрація та вхід успішні!";
+
+            await Task.Delay(1500); 
+
+            if (registerModel.Role == "Trainer")
+            {
+                Navigation.NavigateTo("/trainer/dashboard", forceLoad: true);
+            }
+            else if (registerModel.Role == "Client")
+            {
+                Navigation.NavigateTo("/client/dashboard", forceLoad: true);
+            }
+            else
+            {
+                Navigation.NavigateTo("/", forceLoad: true);
+            }
+        }else
+{
+    errorMessage = result.Message?? "Помилка реєстрації.";
+}
+
+isLoading = false;
+
+        
+    }
+}

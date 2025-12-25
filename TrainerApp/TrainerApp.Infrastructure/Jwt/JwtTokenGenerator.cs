@@ -27,7 +27,6 @@ public class JwtTokenGenerator: IJwtTokenGenerator
         };
 
         claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
-
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 

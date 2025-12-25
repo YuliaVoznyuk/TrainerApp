@@ -151,3 +151,8 @@ D:\ProjecttsPortfolio\TrainerApp\TrainerApp.API\bin\Debug\net9.0\TrainerApp.Appl
 D:\ProjecttsPortfolio\TrainerApp\TrainerApp.API\bin\Debug\net9.0\TrainerApp.Application.pdb
 D:\ProjecttsPortfolio\TrainerApp\TrainerApp.API\bin\Debug\net9.0\AutoMapper.dll
 D:\ProjecttsPortfolio\TrainerApp\TrainerApp.API\obj\Debug\net9.0\TrainerApp.API.sourcelink.json
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.API\bin\Debug\net9.0\Blazored.LocalStorage.dll
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.API\bin\Debug\net9.0\TrainerApp.API.staticwebassets.runtime.json
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.API\bin\Debug\net9.0\MudBlazor.dll
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.API\obj\Debug\net9.0\compressed\tzxjg6is5z-7c7lhmh1j6.gz
+D:\ProjecttsPortfolio\TrainerApp\TrainerApp.API\obj\Debug\net9.0\compressed\0wz98yz2xy-f96y5mhlyw.gz

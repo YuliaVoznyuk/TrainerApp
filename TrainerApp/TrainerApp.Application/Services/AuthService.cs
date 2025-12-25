@@ -22,7 +22,22 @@ public class AuthService : IAuthService
 
     public async Task RegisterAsync(RegisterDto dto)
     {
-        await _registerHandler.HandleAsync(dto);
+        try
+        {
+            await _registerHandler.HandleAsync(dto);
+        }
+        catch (ArgumentException ex)
+        {
+            throw new ArgumentException(ex.Message); 
+        }
+        catch (InvalidOperationException ex)
+        {
+            throw new InvalidOperationException(ex.Message); 
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException("Помилка реєстрації: " + ex.Message);
+        }
     }
 
 
@@ -30,4 +45,5 @@ public class AuthService : IAuthService
     {
         return await _loginHandler.HandleAsync(dto);
     }
+   
 }

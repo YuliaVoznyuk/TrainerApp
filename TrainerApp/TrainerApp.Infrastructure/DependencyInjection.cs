@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,19 +18,24 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration config)
     {
-        // Database (EF Core)
         services.AddDbContext<AppDbContext>(options =>
             options.UseNpgsql(config.GetConnectionString("DefaultConnection")));
 
-        // ASP.NET Identity
         services.AddIdentity<User, IdentityRole<Guid>>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
             })
-            .AddEntityFrameworkStores<AppDbContext>();
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
 
-        // 🔹 Реєструємо реалізації інфраструктурних сервісів
+        services.AddAutoMapper(cfg =>
+        {
+            
+        }, Assembly.GetExecutingAssembly());
+
         services.AddScoped<ITrainingRepository, TrainingRepository>();
         services.AddScoped<IWorkoutRepository, WorkoutRepository>();
         services.AddScoped<IScheduleRepository, ScheduleRepository>();
@@ -37,7 +43,10 @@ public static class DependencyInjection
         services.AddScoped<IPhotoRepository, PhotoRepository>();
         services.AddScoped<IFileStorage, FileStorageService>();
 
-        // JWT generator
+       
+        services.AddScoped<IClientRepository, ClientRepository>();
+
+        
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
         return services;
