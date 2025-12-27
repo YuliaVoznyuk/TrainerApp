@@ -1,0 +1,75 @@
+@page "/workouts/new"
+@page "/workouts/edit/{Id:int}"
+@using TrainerApp.Application.DTOs
+@using TrainerApp.Web.Services
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+
+<PageTitle>@(Id == 0 ? "Нове тренування" : "Редагувати тренування") | TrainerApp</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <h3>@(Id == 0 ? "Створити нове тренування" : "Редагувати тренування")</h3>
+
+        <EditForm Model="workout" OnValidSubmit="SaveWorkout">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="mb-3">
+                <label class="form-label">Назва</label>
+                <InputText class="form-control" @bind-Value="workout.Title" />
+                <ValidationMessage For="@(() => workout.Title)" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Дата</label>
+                <InputDate class="form-control" @bind-Value="workout.Date" />
+                <ValidationMessage For="@(() => workout.Date)" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Вправи</label>
+                // Додайте компонент для вибору вправ (наприклад, список з чекбоксами)
+            </div>
+
+            <button type="submit" class="btn btn-success">Зберегти</button>
+            <button class="btn btn-secondary" @onclick="Cancel">Скасувати</button>
+        </EditForm>
+    </Authorized>
+    <NotAuthorized>
+        <p>Будь ласка, увійдіть.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    private WorkoutSessionDto workout = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id != 0)
+        {
+            workout = await ApiService.GetWorkoutAsync(Id) ?? new WorkoutSessionDto();
+        }
+    }
+
+    private async Task SaveWorkout()
+    {
+        if (Id == 0)
+        {
+            await ApiService.CreateWorkoutAsync(workout);
+        }
+        else
+        {
+            await ApiService.UpdateWorkoutAsync(workout);
+        }
+
+        Navigation.NavigateTo("/workouts");
+    }
+
+    private void Cancel()
+    {
+        Navigation.NavigateTo("/workouts");
+    }
+}

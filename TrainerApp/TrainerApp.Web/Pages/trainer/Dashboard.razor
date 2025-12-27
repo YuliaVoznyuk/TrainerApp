@@ -1,6 +1,41 @@
 @page "/trainer/dashboard"
-<h3>Dashboard</h3>
+@using TrainerApp.Web.Services
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+
+<AuthorizeView Roles="Trainer">
+    <Authorized>
+        <h3>Дашборд тренера</h3>
+        <p>Вітаємо, тренере! Тут ваші клієнти, розклад, плани...</p>
+
+        <button class="btn btn-primary" @onclick="GoToClients">Клієнти</button>
+        <button class="btn btn-primary" @onclick="GoToSchedules">Розклад</button>
+        <button class="btn btn-primary" @onclick="GoToPlans">Плани тренувань</button>
+    </Authorized>
+    <NotAuthorized>
+        <p>Доступ заборонено. Тільки для тренерів.</p>
+        <button class="btn btn-primary" @onclick="GoToHome">
+            На головну
+        </button>    </NotAuthorized>
+</AuthorizeView>
 
 @code {
-    
+    private void GoToHome()
+    {
+        Navigation.NavigateTo("/");
+    }
+    private void GoToClients()
+    {
+        Navigation.NavigateTo("/trainer/clients");
+    }
+
+    private void GoToSchedules()
+    {
+        Navigation.NavigateTo("/trainer/schedules");
+    }
+
+    private void GoToPlans()
+    {
+        Navigation.NavigateTo("/trainingplans");
+    }
 }

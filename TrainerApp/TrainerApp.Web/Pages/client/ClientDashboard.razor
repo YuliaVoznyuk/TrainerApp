@@ -1,0 +1,39 @@
+@page "/client/dashboard"
+@using TrainerApp.Web.Services
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+
+<AuthorizeView Roles="Client">
+    <Authorized>
+        <h3>Дашборд клієнта</h3>
+        <p>Вітаємо! Тут ваші тренування, прогрес, розклад...</p>
+
+        <button class="btn btn-primary" @onclick="GoToWorkouts">Тренування</button>
+        <button class="btn btn-primary" @onclick="GoToProgress">Прогрес</button>
+        <button class="btn btn-primary" @onclick="GoToPlans">Плани</button>
+    </Authorized>
+    <NotAuthorized>
+        <p>Доступ заборонено. Тільки для клієнтів.</p>
+        <button class="btn btn-primary" @onclick="GoToHome">На головну</button>    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private void GoToHome()
+    {
+        Navigation.NavigateTo("/");
+    }
+    private void GoToWorkouts()
+    {
+        Navigation.NavigateTo("/workouts");
+    }
+
+    private void GoToProgress()
+    {
+        Navigation.NavigateTo("/progress");
+    }
+
+    private void GoToPlans()
+    {
+        Navigation.NavigateTo("/trainingplans");
+    }
+}

@@ -8,7 +8,7 @@ public interface IClientService
 {
     Task<Guid> GetClientIdAsync(ClaimsPrincipal user);
 
-    Task<IEnumerable<ClientTrainingDto>> GetMyTrainingsAsync(Guid clientId);
+    Task<IEnumerable<TrainingPlan>> GetMyTrainingsAsync(Guid clientId);
     Task<ClientNutritionDto?> GetMyNutritionPlanAsync(Guid clientId);
     Task CancelTrainingAsync(Guid clientId, Guid slotId);
     Task<Guid> UploadProgressPhotoAsync(Guid clientId, IFormFile photo);

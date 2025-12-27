@@ -31,6 +31,18 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/ProjecttsPortfolio/TrainerApp/TrainerApp.Web/Pages/client/ClientDashboard.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcY2xpZW50XENsaWVudERhc2hib2FyZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjecttsPortfolio/TrainerApp/TrainerApp.Web/Pages/ExerciseDetail.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXhlcmNpc2VEZXRhaWwucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjecttsPortfolio/TrainerApp/TrainerApp.Web/Pages/Exercises.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXhlcmNpc2VzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/ProjecttsPortfolio/TrainerApp/TrainerApp.Web/Pages/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -45,6 +57,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/ProjecttsPortfolio/TrainerApp/TrainerApp.Web/Pages/trainer/Dashboard.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcdHJhaW5lclxEYXNoYm9hcmQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjecttsPortfolio/TrainerApp/TrainerApp.Web/Pages/WorkoutForm.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcV29ya291dEZvcm0ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ProjecttsPortfolio/TrainerApp/TrainerApp.Web/Pages/Workouts.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcV29ya291dHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/ProjecttsPortfolio/TrainerApp/TrainerApp.Web/_Imports.razor]

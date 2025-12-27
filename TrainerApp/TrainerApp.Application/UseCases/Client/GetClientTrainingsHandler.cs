@@ -12,10 +12,10 @@ public class GetClientTrainingsHandler
         _trainingRepository = trainingRepository;
     }
 
-    public async Task<IEnumerable<ClientTrainingDto>> HandleAsync(Guid clientId)
+    public async Task<IEnumerable<TrainingPlan>> HandleAsync(Guid clientId)
     {
         var slots = await _trainingRepository.GetClientTrainingsAsync(clientId);
-        return slots.Select(s => new ClientTrainingDto
+        return slots.Select(s => new TrainingPlan
         {
             SlotId = s.Id,
             StartAt = s.StartAt,

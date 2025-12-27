@@ -85,11 +85,12 @@
 
             if (response.Success)
             {
-                await localStorage.SetItemAsync("authToken", response.Token);
+                if (!string.IsNullOrEmpty(response.Token))
+                {
+                    await localStorage.SetItemAsync("authToken", response.Token);
+                }
 
                 var role = await ApiService.GetUserRoleAsync();
-
-                await Task.Delay(1000); 
 
                 if (role == "Trainer")
                 {
@@ -111,7 +112,7 @@
         }
         catch (Exception ex)
         {
-            errorMessage = "Помилка підключення до сервера: " + ex.Message;
+            errorMessage = "Помилка: " + ex.Message;
         }
         finally
         {

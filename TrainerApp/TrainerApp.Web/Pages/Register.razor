@@ -1,9 +1,8 @@
 @page "/register"
 @inject ApiService ApiService
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject NavigationManager Navigation
 @using System.ComponentModel.DataAnnotations
-@using Blazored.LocalStorage
-@inject Blazored.LocalStorage.ILocalStorageService localStorage   
 @using TrainerApp.Web.Services
 @using TrainerApp.Web.Shared.DTOs
 
@@ -118,7 +117,7 @@
         public string LastName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Введіть дату народження")]
-        public DateTime Birthdate { get; set; } = DateTime.Today.AddYears(-18); // за замовчуванням 18 років
+        public DateTime Birthdate { get; set; } = DateTime.Today.AddYears(-18);
 
         [Required(ErrorMessage = "Оберіть роль")]
         public string Role { get; set; } = string.Empty;
@@ -142,46 +141,58 @@
 
         isLoading = true;
         errorMessage = null;
-        var dto = new RegisterDto(
-            Email: registerModel.Email,
-            Password: registerModel.Password,
-            FirstName: registerModel.FirstName,
-            LastName: registerModel.LastName,
-            Birthdate: DateTime.SpecifyKind(registerModel.Birthdate.Date, DateTimeKind.Utc),
-            Role: registerModel.Role
-        );
-        var result = await ApiService.RegisterAsync(dto);
+        successMessage = null;
 
-        if (result.Success)
+        try
         {
-            if (!string.IsNullOrEmpty(result.Token))
-            {
-                await localStorage.SetItemAsync("authToken", result.Token);
-            }
+            var dto = new RegisterDto(
+                Email: registerModel.Email,
+                Password: registerModel.Password,
+                FirstName: registerModel.FirstName,
+                LastName: registerModel.LastName,
+                Birthdate: DateTime.SpecifyKind(registerModel.Birthdate.Date, DateTimeKind.Utc),
+                Role: registerModel.Role
+            );
 
-            successMessage = result.Message ?? "Реєстрація та вхід успішні!";
+            var result = await ApiService.RegisterAsync(dto);
 
-            await Task.Delay(1500); 
+            if (result.Success)
+            {
+                // Зберігаємо токен
+                if (!string.IsNullOrEmpty(result.Token))
+                {
+                    await localStorage.SetItemAsync("authToken", result.Token);
+                }
 
-            if (registerModel.Role == "Trainer")
-            {
-                Navigation.NavigateTo("/trainer/dashboard", forceLoad: true);
-            }
-            else if (registerModel.Role == "Client")
-            {
-                Navigation.NavigateTo("/client/dashboard", forceLoad: true);
+                successMessage = "Реєстрація успішна!";
+
+                await Task.Delay(1500);
+
+                if (registerModel.Role == "Trainer")
+                {
+                    Navigation.NavigateTo("/trainer/dashboard", forceLoad: true);
+                }
+                else if (registerModel.Role == "Client")
+                {
+                    Navigation.NavigateTo("/client/dashboard", forceLoad: true);
+                }
+                else
+                {
+                    Navigation.NavigateTo("/", forceLoad: true);
+                }
             }
             else
             {
-                Navigation.NavigateTo("/", forceLoad: true);
+                errorMessage = result.Message ?? "Помилка реєстрації.";
             }
-        }else
-{
-    errorMessage = result.Message?? "Помилка реєстрації.";
-}
-
-isLoading = false;
-
-        
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "Помилка сервера: " + ex.Message;
+        }
+        finally
+        {
+            isLoading = false;
+        }
     }
 }

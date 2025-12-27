@@ -1,6 +1,6 @@
 namespace TrainerApp.Application.DTOs;
 
-public class ClientTrainingDto
+public class TrainingPlan
 {
     public Guid SlotId { get; set; }
     public DateTime StartAt { get; set; }

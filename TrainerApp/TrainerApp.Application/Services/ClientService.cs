@@ -29,11 +29,11 @@ public class ClientService : IClientService
                      ?? throw new UnauthorizedAccessException("Користувач не є клієнтом.");
         return client.Id;
     }
-    public async Task<IEnumerable<ClientTrainingDto>> GetMyTrainingsAsync(Guid clientId)
+    public async Task<IEnumerable<TrainingPlan>> GetMyTrainingsAsync(Guid clientId)
     {
         var slots = await _repo.GetClientTrainingsAsync(clientId);
 
-        return slots.Select(s => new ClientTrainingDto
+        return slots.Select(s => new TrainingPlan
         {
             SlotId = s.Id,
             StartAt = s.StartAt,

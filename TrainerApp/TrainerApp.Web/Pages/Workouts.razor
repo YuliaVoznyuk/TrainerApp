@@ -1,0 +1,82 @@
+@page "/workouts"
+@using TrainerApp.Application.DTOs
+@using TrainerApp.Web.Services
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+@inject JsInterop JS
+<PageTitle>Тренування | TrainerApp</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <h3>Мої тренування</h3>
+
+        <button class="btn btn-success mb-3" @onclick="CreateNewWorkout">Створити нове тренування</button>
+
+        @if (workouts.Any())
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Назва</th>
+                        <th>Дата</th>
+                        <th>Дії</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var workout in workouts)
+                    {
+                        <tr>
+                            <td>@workout.Title</td>
+                            <td>@workout.Date.ToShortDateString()</td>
+                            <td>
+                                <button class="btn btn-info" @onclick="() => ViewWorkout(workout.Id)">Переглянути</button>
+                                <button class="btn btn-warning" @onclick="() => EditWorkout(workout.Id)">Редагувати</button>
+                                <button class="btn btn-danger" @onclick="() => DeleteWorkout(workout.Id)">Видалити</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>Немає тренувань. Створіть нове!</p>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p>Будь ласка, увійдіть.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private List<WorkoutSessionDto> workouts = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        workouts = await ApiService.GetWorkoutsAsync();
+    }
+
+    private void CreateNewWorkout()
+    {
+        Navigation.NavigateTo("/workouts/new");
+    }
+
+    private void ViewWorkout(int id)
+    {
+        Navigation.NavigateTo($"/workouts/{id}");
+    }
+
+    private void EditWorkout(int id)
+    {
+        Navigation.NavigateTo($"/workouts/edit/{id}");
+    }
+
+    private async Task DeleteWorkout(int id)
+    {
+        if (await JS.Confirm("Видалити тренування?"))
+        {
+            await ApiService.DeleteWorkoutAsync(id);
+            workouts = await ApiService.GetWorkoutsAsync();
+        }
+    }
+}
