@@ -5,7 +5,6 @@ namespace TrainerApp.Application.Interfaces;
 
 public interface INutritionService
 {
-    Task<Guid> GetTrainerIdAsync(ClaimsPrincipal userClaims);
     Task<IEnumerable<NutritionPlanDto>> GetTrainerPlansAsync(Guid trainerId);
     Task<NutritionPlanDto?> GetByIdAsync(Guid trainerId, Guid planId);
     Task<Guid> CreateAsync(Guid trainerId, CreateNutritionPlanDto dto);

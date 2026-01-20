@@ -14,7 +14,20 @@ public class PhotoRepository : IPhotoRepository
     {
         _context = context;
     }
+    public async Task<Guid> CreateAsync(Guid userId, string role, string url, PhotoType type)
+    {
+        var photo = new Photo
+        {
+            Id = Guid.NewGuid(),
+            UserId = userId,
+            Url = url,
+            Type = type,
+        };
 
+        _context.Photos.Add(photo);
+        await _context.SaveChangesAsync();
+        return photo.Id;
+    }
     public async Task<Guid> AddAsync(Photo photo)
     {
         await _context.Photos.AddAsync(photo);

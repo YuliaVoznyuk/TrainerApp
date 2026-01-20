@@ -1,4 +1,7 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using TrainerApp.Application.Interfaces;
+using TrainerApp.Application.Interfaces.FileStorage;
 using TrainerApp.Application.Interfaces.Repositories;
 using TrainerApp.Domain.Entities;
 using TrainerApp.Domain.Enums;
@@ -8,25 +11,31 @@ namespace TrainerApp.Application.Services;
 public class PhotoService : IPhotoService
 {
     private readonly IPhotoRepository _repo;
-
-    public PhotoService(IPhotoRepository repo)
+    private readonly IFileStorage _fileStorage;
+    public PhotoService(IPhotoRepository repo, IFileStorage fileStorage)
     {
         _repo = repo;
+        _fileStorage = fileStorage;
+
     }
 
-    public async Task<Guid> UploadAsync(Guid userId, string role, string url, PhotoType type)
+    public async Task<Guid> UploadAsync(
+        Guid userId,
+        string role,
+        IFormFile photo,
+        PhotoType type)
     {
         ValidatePhotoType(role, type);
 
-        var photo = new Photo
-        {
-            Url = url,
-            Type = type,
-            UserId = userId
-        };
+        var url = await _fileStorage.SaveFileAsync(
+            photo.OpenReadStream(),
+            photo.FileName,
+            "uploads");
 
-        return await _repo.AddAsync(photo);
+        return await _repo.CreateAsync(userId, role, url, type);
     }
+
+
 
     public async Task<IEnumerable<Photo>> GetUserPhotosAsync(Guid userId)
     {

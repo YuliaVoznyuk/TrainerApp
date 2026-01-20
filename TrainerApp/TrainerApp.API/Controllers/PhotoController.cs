@@ -32,12 +32,15 @@ public class PhotoController : ControllerBase
     {
         if (photo == null) return BadRequest("Photo is required");
 
-        var url = await _fileStorage.SaveFileAsync(photo.OpenReadStream(), photo.FileName, "uploads");
+        // контролер сам парсить Claims
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var role = User.FindFirstValue(ClaimTypes.Role);
 
-        var id = await _photoService.UploadAsync(GetUserId(), GetRole(), url, type);
+        var id = await _photoService.UploadAsync(userId, role, photo, type);
 
         return Ok(new { PhotoId = id });
     }
+
     [HttpGet]
     public async Task<IActionResult> Get()
     {

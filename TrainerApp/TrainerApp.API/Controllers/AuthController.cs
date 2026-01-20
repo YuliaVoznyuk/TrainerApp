@@ -24,63 +24,29 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterDto dto)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-        try
-        {
-            await _authService.RegisterAsync(dto);
-            var token = await _authService.LoginAsync(new LoginDto 
-            { 
-                Email = dto.Email, 
-                Password = dto.Password 
-            });
+        var result = await _authService.RegisterAndLoginAsync(dto);
 
-            return Ok(new 
-            { 
-                Success = true, 
-                Token = token,
-                Role = dto.Role, 
-                Message = "Реєстрація та вхід успішні!"
-            });        }
-        catch (ArgumentException ex)
+        return Ok(new
         {
-            return BadRequest(new { Message = ex.Message });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return BadRequest(new { Message = ex.Message });
-        }
-        catch
-        {
-            return StatusCode(500, new { Message = "Internal server error" });
-        }
+            Success = true,
+            result.Token,
+            result.Role,
+            Message = "Реєстрація та вхід успішні!"
+        });
     }
+
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDto dto)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(new { Success = false, Message = "Невірні дані" });
+        var token = await _authService.LoginAsync(dto);
 
-        try
+        return Ok(new
         {
-            var token = await _authService.LoginAsync(dto);
-            
-
-            return Ok(new 
-            { 
-                Success = true,
-                Token = token,
-                Message = "Вхід успішний!"
-            });
-        }
-        catch (UnauthorizedAccessException)
-        {
-            return Unauthorized(new { Success = false, Message = "Невірний email або пароль" });
-        }
-        catch (Exception)
-        {
-            return StatusCode(500, new { Success = false, Message = "Внутрішня помилка сервера" });
-        }
+            Success = true,
+            Token = token,
+            Message = "Вхід успішний!"
+        });
     }
+
     }

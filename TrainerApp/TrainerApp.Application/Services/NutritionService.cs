@@ -53,16 +53,19 @@ public class NutritionService : INutritionService
         return _repository.CreatePlanAsync(plan);
     }
 
-    public Task UpdateAsync(Guid trainerId, Guid planId, CreateNutritionPlanDto dto)
+    public async Task UpdateAsync(Guid trainerId, Guid planId, CreateNutritionPlanDto dto)
     {
-        var plan = new NutritionPlan
+        var plan = await _repository.GetByIdAsync(trainerId, planId)
+                   ?? throw new KeyNotFoundException("План харчування не знайдено.");
+
+        plan.Title = dto.Title;
+        plan.Notes = dto.Description;
+        plan.ClientId = dto.ClientId;
+
+        plan.Items.Clear();
+        foreach (var i in dto.Items)
         {
-            Id = planId,
-            TrainerId = trainerId,
-            ClientId = dto.ClientId,
-            Title = dto.Title,
-            Notes = dto.Description,
-            Items = dto.Items.Select(i => new NutritionItem
+            plan.Items.Add(new NutritionItem
             {
                 Id = Guid.NewGuid(),
                 Name = i.Name,
@@ -71,10 +74,10 @@ public class NutritionService : INutritionService
                 Carbs = i.Carbs,
                 Fats = i.Fats,
                 Description = i.Description
-            }).ToList()
-        };
+            });
+        }
 
-        return _repository.UpdatePlanAsync(plan);
+        await _repository.SaveChangesAsync();
     }
 
     public Task DeleteAsync(Guid trainerId, Guid planId) =>
@@ -97,12 +100,5 @@ public class NutritionService : INutritionService
             Calories = i.Calories
         })
     };
-    public Task<Guid> GetTrainerIdAsync(ClaimsPrincipal userClaims)
-    {
-        var trainerIdClaim = userClaims.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (trainerIdClaim == null || !Guid.TryParse(trainerIdClaim, out var trainerId))
-            throw new UnauthorizedAccessException("Користувач не є тренером.");
-
-        return Task.FromResult(trainerId);
-    }
+   
 }

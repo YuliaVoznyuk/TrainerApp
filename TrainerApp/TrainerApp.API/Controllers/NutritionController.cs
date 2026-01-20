@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,13 +20,18 @@ public class NutritionController : ControllerBase
         _nutritionService = nutritionService;
         
     }
+    private Guid GetTrainerId()
+    {
+        return Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+    }
+
 
    
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var trainerId = await _nutritionService.GetTrainerIdAsync(User);
+        var trainerId = GetTrainerId();
         var plans = await _nutritionService.GetTrainerPlansAsync(trainerId);
         return Ok(plans);
     }
@@ -33,7 +39,7 @@ public class NutritionController : ControllerBase
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> Get(Guid id)
     {
-        var trainerId = await _nutritionService.GetTrainerIdAsync(User);
+        var trainerId = GetTrainerId();
         var plan = await _nutritionService.GetByIdAsync(trainerId, id);
         return plan == null ? NotFound() : Ok(plan);
     }
@@ -41,7 +47,7 @@ public class NutritionController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateNutritionPlanDto dto)
     {
-        var trainerId = await _nutritionService.GetTrainerIdAsync(User);
+        var trainerId = GetTrainerId();
         var id = await _nutritionService.CreateAsync(trainerId, dto);
         return Ok(new { Message = "План створено", PlanId = id });
     }
@@ -49,7 +55,7 @@ public class NutritionController : ControllerBase
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(Guid id, [FromBody] CreateNutritionPlanDto dto)
     {
-        var trainerId = await _nutritionService.GetTrainerIdAsync(User);
+        var trainerId = GetTrainerId();
         await _nutritionService.UpdateAsync(trainerId, id, dto);
         return Ok(new { Message = "План оновлено" });
     }
@@ -57,7 +63,7 @@ public class NutritionController : ControllerBase
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var trainerId = await _nutritionService.GetTrainerIdAsync(User);
+        var trainerId = GetTrainerId();
         await _nutritionService.DeleteAsync(trainerId, id);
         return Ok(new { Message = "План видалено" });
     }

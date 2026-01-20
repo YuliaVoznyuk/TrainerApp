@@ -19,6 +19,22 @@ public class AuthService : IAuthService
         _registerHandler = registerHandler;
         _loginHandler = loginHandler;
     }
+    public async Task<AuthResponseDto> RegisterAndLoginAsync(RegisterDto dto)
+    {
+        await RegisterAsync(dto);
+
+        var token = await LoginAsync(new LoginDto
+        {
+            Email = dto.Email,
+            Password = dto.Password
+        });
+
+        return new AuthResponseDto
+        {
+            Token = token,
+            Role = dto.Role
+        };
+    }
 
     public async Task RegisterAsync(RegisterDto dto)
     {
