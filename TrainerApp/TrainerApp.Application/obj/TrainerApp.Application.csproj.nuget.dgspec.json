@@ -73,6 +73,14 @@
               "target": "Package",
               "version": "[11.3.1, )"
             },
+            "Mapster": {
+              "target": "Package",
+              "version": "[10.0.0-pre01, )"
+            },
+            "Mapster.DependencyInjection": {
+              "target": "Package",
+              "version": "[9.0.0-pre01, )"
+            },
             "MudBlazor": {
               "target": "Package",
               "version": "[8.15.0, )"
@@ -156,6 +164,14 @@
               "target": "Package",
               "version": "[11.3.1, )"
             },
+            "Mapster": {
+              "target": "Package",
+              "version": "[10.0.0-pre01, )"
+            },
+            "Mapster.DependencyInjection": {
+              "target": "Package",
+              "version": "[9.0.0-pre01, )"
+            },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
               "version": "[9.0.0-preview.1.24081.5, )"
@@ -238,6 +254,14 @@
             "Blazored.LocalStorage": {
               "target": "Package",
               "version": "[4.5.0, )"
+            },
+            "Mapster": {
+              "target": "Package",
+              "version": "[10.0.0-pre01, )"
+            },
+            "Mapster.DependencyInjection": {
+              "target": "Package",
+              "version": "[9.0.0-pre01, )"
             },
             "Microsoft.AspNetCore.Components.WebAssembly": {
               "target": "Package",

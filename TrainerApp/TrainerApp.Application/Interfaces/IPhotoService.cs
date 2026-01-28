@@ -7,7 +7,12 @@ namespace TrainerApp.Application.Interfaces;
 
 public interface IPhotoService
 {
-    Task<Guid> UploadAsync(Guid userId, string role, IFormFile photo, PhotoType type);
+    Task<Guid> UploadAsync(
+        Guid userId,
+        string role,
+        Stream photoStream,
+        string fileName,
+        PhotoType type);
 
     Task<IEnumerable<Photo>> GetUserPhotosAsync(Guid userId);
 }

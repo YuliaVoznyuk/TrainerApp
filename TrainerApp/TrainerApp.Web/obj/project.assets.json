@@ -14,6 +14,40 @@
           "lib/net8.0/Blazored.LocalStorage.dll": {}
         }
       },
+      "Mapster/10.0.0-pre01": {
+        "type": "package",
+        "dependencies": {
+          "Mapster.Core": "10.0.0-pre01"
+        },
+        "compile": {
+          "lib/net9.0/Mapster.dll": {}
+        },
+        "runtime": {
+          "lib/net9.0/Mapster.dll": {}
+        }
+      },
+      "Mapster.Core/10.0.0-pre01": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Mapster.Core.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Mapster.Core.dll": {}
+        }
+      },
+      "Mapster.DependencyInjection/9.0.0-pre01": {
+        "type": "package",
+        "dependencies": {
+          "Mapster": "9.0.0-pre01",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0"
+        },
+        "compile": {
+          "lib/net9.0/Mapster.DependencyInjection.dll": {}
+        },
+        "runtime": {
+          "lib/net9.0/Mapster.DependencyInjection.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.Authorization/9.0.2": {
         "type": "package",
         "dependencies": {
@@ -593,6 +627,40 @@
         },
         "runtime": {
           "lib/net8.0/Blazored.LocalStorage.dll": {}
+        }
+      },
+      "Mapster/10.0.0-pre01": {
+        "type": "package",
+        "dependencies": {
+          "Mapster.Core": "10.0.0-pre01"
+        },
+        "compile": {
+          "lib/net9.0/Mapster.dll": {}
+        },
+        "runtime": {
+          "lib/net9.0/Mapster.dll": {}
+        }
+      },
+      "Mapster.Core/10.0.0-pre01": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Mapster.Core.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Mapster.Core.dll": {}
+        }
+      },
+      "Mapster.DependencyInjection/9.0.0-pre01": {
+        "type": "package",
+        "dependencies": {
+          "Mapster": "9.0.0-pre01",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0"
+        },
+        "compile": {
+          "lib/net9.0/Mapster.DependencyInjection.dll": {}
+        },
+        "runtime": {
+          "lib/net9.0/Mapster.DependencyInjection.dll": {}
         }
       },
       "Microsoft.AspNetCore.Authorization/9.0.2": {
@@ -1179,6 +1247,48 @@
         "lib/net6.0/Blazored.LocalStorage.dll",
         "lib/net7.0/Blazored.LocalStorage.dll",
         "lib/net8.0/Blazored.LocalStorage.dll"
+      ]
+    },
+    "Mapster/10.0.0-pre01": {
+      "sha512": "p3MDNxabwTyrxKTudmHajv3ENIhyfkdD7POxK7kvFFI5H90ORawVSpJ6zvr1SBEv46oCZI7Ajmr4yRBQA7/vdA==",
+      "type": "package",
+      "path": "mapster/10.0.0-pre01",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/net10.0/Mapster.dll",
+        "lib/net8.0/Mapster.dll",
+        "lib/net9.0/Mapster.dll",
+        "mapster.10.0.0-pre01.nupkg.sha512",
+        "mapster.nuspec"
+      ]
+    },
+    "Mapster.Core/10.0.0-pre01": {
+      "sha512": "QXtgC4bDQhky9qFA+oMe2vaQdsT+FAAZb9CwuOeqHkAsKQken0XKutXN3SFMs/o7guJFzCe7hLG1KLwD3Wa7sA==",
+      "type": "package",
+      "path": "mapster.core/10.0.0-pre01",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/netstandard2.0/Mapster.Core.dll",
+        "mapster.core.10.0.0-pre01.nupkg.sha512",
+        "mapster.core.nuspec"
+      ]
+    },
+    "Mapster.DependencyInjection/9.0.0-pre01": {
+      "sha512": "HBULPK3Dgc16dQ/auZWW2vzKQIJwV+VxqRHdvE+YlPFA1s+JMYlP3TesKOCqYr64U3uiT7FXyDBcXlWNOtSJyw==",
+      "type": "package",
+      "path": "mapster.dependencyinjection/9.0.0-pre01",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/net8.0/Mapster.DependencyInjection.dll",
+        "lib/net9.0/Mapster.DependencyInjection.dll",
+        "mapster.dependencyinjection.9.0.0-pre01.nupkg.sha512",
+        "mapster.dependencyinjection.nuspec"
       ]
     },
     "Microsoft.AspNetCore.Authorization/9.0.2": {
@@ -2258,6 +2368,8 @@
   "projectFileDependencyGroups": {
     "net9.0": [
       "Blazored.LocalStorage >= 4.5.0",
+      "Mapster >= 10.0.0-pre01",
+      "Mapster.DependencyInjection >= 9.0.0-pre01",
       "Microsoft.AspNetCore.Components.WebAssembly >= 9.0.2",
       "Microsoft.AspNetCore.Components.WebAssembly.DevServer >= 9.0.2",
       "Microsoft.NET.ILLink.Tasks >= 9.0.2",
@@ -2319,6 +2431,14 @@
           "Blazored.LocalStorage": {
             "target": "Package",
             "version": "[4.5.0, )"
+          },
+          "Mapster": {
+            "target": "Package",
+            "version": "[10.0.0-pre01, )"
+          },
+          "Mapster.DependencyInjection": {
+            "target": "Package",
+            "version": "[9.0.0-pre01, )"
           },
           "Microsoft.AspNetCore.Components.WebAssembly": {
             "target": "Package",

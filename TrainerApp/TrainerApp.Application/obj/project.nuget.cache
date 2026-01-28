@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Ce+0wLN5X6Y=",
+  "dgSpecHash": "1VF4PCMViHQ=",
   "success": true,
   "projectFilePath": "D:\\ProjecttsPortfolio\\TrainerApp\\TrainerApp.Application\\TrainerApp.Application.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,9 @@
     "C:\\Users\\admin\\.nuget\\packages\\fluentvalidation\\11.11.0\\fluentvalidation.11.11.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.1\\fluentvalidation.aspnetcore.11.3.1.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.11.0\\fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",
+    "C:\\Users\\admin\\.nuget\\packages\\mapster\\10.0.0-pre01\\mapster.10.0.0-pre01.nupkg.sha512",
+    "C:\\Users\\admin\\.nuget\\packages\\mapster.core\\10.0.0-pre01\\mapster.core.10.0.0-pre01.nupkg.sha512",
+    "C:\\Users\\admin\\.nuget\\packages\\mapster.dependencyinjection\\9.0.0-pre01\\mapster.dependencyinjection.9.0.0-pre01.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.aspnetcore.authorization\\9.0.2\\microsoft.aspnetcore.authorization.9.0.2.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.aspnetcore.components\\9.0.2\\microsoft.aspnetcore.components.9.0.2.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.aspnetcore.components.analyzers\\9.0.2\\microsoft.aspnetcore.components.analyzers.9.0.2.nupkg.sha512",

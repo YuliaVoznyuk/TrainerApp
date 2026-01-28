@@ -3,7 +3,7 @@ using TrainerApp.Application.Interfaces.FileStorage;
 
 namespace TrainerApp.Infrastructure.Services;
 
-public class FileStorageService : IFileStorage
+public class FileStorageService : IPhotoStorage
 {
     private readonly IWebHostEnvironment _env;
 
@@ -12,7 +12,7 @@ public class FileStorageService : IFileStorage
         _env = env;
     }
 
-    public async Task<string> SaveFileAsync(Stream fileStream, string fileName, string folder)
+    public async Task<string> SaveAsync(Stream fileStream, string fileName, string folder)
     {
         var uploadsPath = Path.Combine(_env.WebRootPath ?? "wwwroot", folder);
         Directory.CreateDirectory(uploadsPath);

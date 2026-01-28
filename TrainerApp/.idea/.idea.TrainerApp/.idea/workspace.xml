@@ -13,35 +13,74 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f00758ac-9516-4b41-a669-62cd90d6db42" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/TrainerApp.Application/DTOs/AuthResponseDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TrainerApp.API/Controllers/AuthController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.API/Controllers/AuthController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TrainerApp.API/Context/TrainerContext.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TrainerApp.Application/Interfaces/FileStorage/IPhotoStorage.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TrainerApp.Application/Interfaces/ITrainerContext.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TrainerApp.Application/Mapping/NutritionMapping.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TrainerApp.Infrastructure/Storage/S3PhotoStorage.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TrainerApp/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TrainerApp/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrainerApp.API/Controllers/NutritionController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.API/Controllers/NutritionController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrainerApp.API/Controllers/PhotoController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.API/Controllers/PhotoController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TrainerApp.API/Middleware/ExceptionHandlingMiddleware.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.API/Middleware/ExceptionHandlingMiddleware.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.API/Program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrainerApp.API/obj/Debug/net9.0/TrainerApp.API.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.API/obj/Debug/net9.0/TrainerApp.API.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrainerApp.API/obj/Debug/net9.0/TrainerApp.API.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.API/obj/Debug/net9.0/TrainerApp.API.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.API/obj/Debug/net9.0/TrainerApp.API.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.API/obj/Debug/net9.0/TrainerApp.API.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.API/obj/Debug/net9.0/TrainerApp.API.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.API/obj/Debug/net9.0/TrainerApp.API.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.API/obj/TrainerApp.API.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.API/obj/TrainerApp.API.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.API/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.API/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.API/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.API/obj/project.nuget.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrainerApp.API/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.API/obj/rider.project.model.nuget.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrainerApp.API/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.API/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TrainerApp.Application/Interfaces/IAuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Application/Interfaces/IAuthService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Application/Interfaces/FileStorage/IFileStorage.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/TrainerApp.Application/Interfaces/INutritionService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Application/Interfaces/INutritionService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrainerApp.Application/Interfaces/IPhotoService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Application/Interfaces/IPhotoService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TrainerApp.Application/Interfaces/Repositories/INutritionRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Application/Interfaces/Repositories/INutritionRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TrainerApp.Application/Interfaces/Repositories/IPhotoRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Application/Interfaces/Repositories/IPhotoRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TrainerApp.Application/Services/AuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Application/Services/AuthService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrainerApp.Application/Services/NutritionService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Application/Services/NutritionService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrainerApp.Application/Services/PhotoService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Application/Services/PhotoService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Application/TrainerApp.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Application/TrainerApp.Application.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Application/UseCases/Client/UploadProgressPhotoHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Application/UseCases/Client/UploadProgressPhotoHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrainerApp.Application/obj/Debug/net9.0/TrainerApp.Application.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Application/obj/Debug/net9.0/TrainerApp.Application.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrainerApp.Application/obj/Debug/net9.0/TrainerApp.Application.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Application/obj/Debug/net9.0/TrainerApp.Application.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Application/obj/Debug/net9.0/TrainerApp.Application.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Application/obj/Debug/net9.0/TrainerApp.Application.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Application/obj/Debug/net9.0/TrainerApp.Application.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Application/obj/Debug/net9.0/TrainerApp.Application.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Application/obj/TrainerApp.Application.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Application/obj/TrainerApp.Application.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Application/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Application/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Application/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Application/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Application/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Application/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Application/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Application/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Application/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Application/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Domain/TrainerApp.Domain.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Domain/TrainerApp.Domain.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrainerApp.Domain/obj/Debug/net9.0/TrainerApp.Domain.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Domain/obj/Debug/net9.0/TrainerApp.Domain.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrainerApp.Domain/obj/Debug/net9.0/TrainerApp.Domain.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Domain/obj/Debug/net9.0/TrainerApp.Domain.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TrainerApp.Infrastructure/Repositories/NutritionRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Infrastructure/Repositories/NutritionRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TrainerApp.Infrastructure/Repositories/PhotoRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Infrastructure/Repositories/PhotoRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Domain/obj/Debug/net9.0/TrainerApp.Domain.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Domain/obj/Debug/net9.0/TrainerApp.Domain.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Domain/obj/Debug/net9.0/TrainerApp.Domain.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Domain/obj/Debug/net9.0/TrainerApp.Domain.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Domain/obj/TrainerApp.Domain.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Domain/obj/TrainerApp.Domain.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Domain/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Domain/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Domain/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Domain/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Domain/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Domain/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Domain/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Domain/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Domain/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Domain/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Infrastructure/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Infrastructure/DependencyInjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Infrastructure/Services/FileStorageService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Infrastructure/Services/FileStorageService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrainerApp.Infrastructure/obj/Debug/net9.0/TrainerApp.Infrastructure.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Infrastructure/obj/Debug/net9.0/TrainerApp.Infrastructure.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrainerApp.Infrastructure/obj/Debug/net9.0/TrainerApp.Infrastructure.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Infrastructure/obj/Debug/net9.0/TrainerApp.Infrastructure.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Infrastructure/obj/Debug/net9.0/TrainerApp.Infrastructure.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Infrastructure/obj/Debug/net9.0/TrainerApp.Infrastructure.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Infrastructure/obj/Debug/net9.0/TrainerApp.Infrastructure.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Infrastructure/obj/Debug/net9.0/TrainerApp.Infrastructure.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Infrastructure/obj/TrainerApp.Infrastructure.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Infrastructure/obj/TrainerApp.Infrastructure.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Infrastructure/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Infrastructure/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Infrastructure/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Infrastructure/obj/project.nuget.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrainerApp.Infrastructure/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Infrastructure/obj/rider.project.model.nuget.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrainerApp.Infrastructure/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Infrastructure/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Web/TrainerApp.Web.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Web/TrainerApp.Web.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrainerApp.Web/obj/Debug/net9.0/TrainerApp.Web.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Web/obj/Debug/net9.0/TrainerApp.Web.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrainerApp.Web/obj/Debug/net9.0/TrainerApp.Web.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Web/obj/Debug/net9.0/TrainerApp.Web.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Web/obj/Debug/net9.0/TrainerApp.Web.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Web/obj/Debug/net9.0/TrainerApp.Web.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Web/obj/Debug/net9.0/TrainerApp.Web.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Web/obj/Debug/net9.0/TrainerApp.Web.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Web/obj/TrainerApp.Web.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Web/obj/TrainerApp.Web.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Web/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Web/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Web/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Web/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Web/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Web/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Web/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Web/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainerApp.Web/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/TrainerApp.Web/obj/rider.project.restore.info" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,6 +106,7 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/TrainerApp.API/Context/TrainerContext.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TrainerApp.API/Controllers/AuthController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TrainerApp.API/Controllers/ClientController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TrainerApp.API/Controllers/NutritionController.cs" root0="FORCE_HIGHLIGHTING" />
@@ -98,6 +138,7 @@
     <setting file="file://$PROJECT_DIR$/TrainerApp.Application/Interfaces/INutritionService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TrainerApp.Application/Interfaces/IPhotoService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TrainerApp.Application/Interfaces/IScheduleService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TrainerApp.Application/Interfaces/ITrainerContext.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TrainerApp.Application/Interfaces/ITrainerService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TrainerApp.Application/Interfaces/IWorkoutService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TrainerApp.Application/Interfaces/Repositories/IClientRepository.cs" root0="FORCE_HIGHLIGHTING" />
@@ -106,6 +147,7 @@
     <setting file="file://$PROJECT_DIR$/TrainerApp.Application/Interfaces/Repositories/IScheduleRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TrainerApp.Application/Interfaces/Repositories/ITrainingRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TrainerApp.Application/Interfaces/Repositories/IWorkoutRepository.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TrainerApp.Application/Mapping/NutritionMapping.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TrainerApp.Application/Services/AuthService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TrainerApp.Application/Services/ClientService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TrainerApp.Application/Services/NutritionService.cs" root0="FORCE_HIGHLIGHTING" />
@@ -145,6 +187,7 @@
     <setting file="file://$PROJECT_DIR$/TrainerApp.Infrastructure/Repositories/WorkoutRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TrainerApp.Infrastructure/Seed/AppUserSeeder.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TrainerApp.Infrastructure/Services/FileStorageService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TrainerApp.Infrastructure/Storage/S3PhotoStorage.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TrainerApp.Web/Models/AuthResponse.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TrainerApp.Web/Pages/ExerciseDetail.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/TrainerApp.Web/Pages/Exercises.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
@@ -354,6 +397,8 @@
       <workItem from="1768596994383" duration="670000" />
       <workItem from="1768739469819" duration="6138000" />
       <workItem from="1768932339245" duration="29000" />
+      <workItem from="1768932844822" duration="558000" />
+      <workItem from="1769600921107" duration="5903000" />
     </task>
     <servers />
   </component>

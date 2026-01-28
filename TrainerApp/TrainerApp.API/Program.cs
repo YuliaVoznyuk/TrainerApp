@@ -1,11 +1,14 @@
 using System.Text;
 using FluentValidation.AspNetCore;
+using Mapster;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using TrainerApp.API.Context;
 using TrainerApp.API.Middleware;
 using TrainerApp.Application;
 using TrainerApp.Application.Interfaces;
+using TrainerApp.Application.Interfaces.FileStorage;
 using TrainerApp.Application.Services;
 using TrainerApp.Application.Validators;
 using TrainerApp.Domain.Entities;
@@ -13,6 +16,7 @@ using TrainerApp.Infrastructure;
 using TrainerApp.Infrastructure.Jwt;
 using TrainerApp.Infrastructure.Persistence;
 using TrainerApp.Infrastructure.Seed;
+using TrainerApp.Infrastructure.Storage;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,10 +59,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAuthorization();
+builder.Services.AddMapster();
 
 builder.Services.AddScoped<JwtTokenGenerator>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<AppUserSeeder>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ITrainerContext, TrainerContext>();
+builder.Services.AddScoped<IPhotoStorage, S3PhotoStorage>();
 
 var app = builder.Build();
 
