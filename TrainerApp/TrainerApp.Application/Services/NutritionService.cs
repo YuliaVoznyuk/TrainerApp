@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 using TrainerApp.Application.DTOs;
 using TrainerApp.Application.Interfaces;
@@ -9,100 +10,78 @@ namespace TrainerApp.Application.Services;
 
 public class NutritionService : INutritionService
 {
-    private readonly INutritionRepository _repository;
+   private readonly INutritionRepository _repository;
+    private readonly ITrainerContext _trainerContext;
 
-    public NutritionService(INutritionRepository repository)
+    public NutritionService(
+        INutritionRepository repository,
+        ITrainerContext trainerContext)
     {
         _repository = repository;
+        _trainerContext = trainerContext;
     }
 
-   public async Task<IEnumerable<NutritionPlanDto>> GetTrainerPlansAsync(Guid trainerId)
+    public async Task<IEnumerable<NutritionPlanDto>> GetTrainerPlansAsync()
     {
-        var plans = await _repository.GetTrainerPlansAsync(trainerId);
-        return plans.Select(MapToDto);
+        var plans = await _repository
+            .GetTrainerPlansAsync(_trainerContext.TrainerId);
+
+        return plans.Adapt<IEnumerable<NutritionPlanDto>>();
     }
 
-    public async Task<NutritionPlanDto?> GetByIdAsync(Guid trainerId, Guid planId)
+    public async Task<NutritionPlanDto?> GetByIdAsync(Guid planId)
     {
-        var plan = await _repository.GetPlanByIdAsync(trainerId, planId);
-        return plan == null ? null : MapToDto(plan);
+        var plan = await _repository
+            .GetPlanByIdAsync(_trainerContext.TrainerId, planId);
+
+        return plan?.Adapt<NutritionPlanDto>();
     }
 
-    public Task<Guid> CreateAsync(Guid trainerId, CreateNutritionPlanDto dto)
+    public async Task<Guid> CreateAsync(CreateNutritionPlanDto dto)
     {
-        var plan = new NutritionPlan
-        {
-            Id = Guid.NewGuid(),
-            TrainerId = trainerId,
-            ClientId = dto.ClientId,
-            Title = dto.Title,
-            Notes = dto.Description,
-            StartDate = DateTime.UtcNow,
-            Items = dto.Items.Select(i => new NutritionItem
+        var plan = dto.Adapt<NutritionPlan>();
+
+        plan.Id = Guid.NewGuid();
+        plan.TrainerId = _trainerContext.TrainerId;
+        plan.StartDate = DateTime.UtcNow;
+
+        plan.Items = dto.Items
+            .Select(i =>
             {
-                Id = Guid.NewGuid(),
-                Name = i.Name,
-                Calories = i.Calories,
-                Protein = i.Protein,
-                Carbs = i.Carbs,
-                Fats = i.Fats,
-                Description = i.Description,
-            }).ToList()
-        };
+                var item = i.Adapt<NutritionItem>();
+                item.Id = Guid.NewGuid();
+                return item;
+            })
+            .ToList();
 
-        return _repository.CreatePlanAsync(plan);
+        await _repository.CreatePlanAsync(plan);
+        return plan.Id;
     }
 
-    public Task UpdateAsync(Guid trainerId, Guid planId, CreateNutritionPlanDto dto)
+    public async Task UpdateAsync(Guid planId, CreateNutritionPlanDto dto)
     {
-        var plan = new NutritionPlan
-        {
-            Id = planId,
-            TrainerId = trainerId,
-            ClientId = dto.ClientId,
-            Title = dto.Title,
-            Notes = dto.Description,
-            Items = dto.Items.Select(i => new NutritionItem
-            {
-                Id = Guid.NewGuid(),
-                Name = i.Name,
-                Calories = i.Calories,
-                Protein = i.Protein,
-                Carbs = i.Carbs,
-                Fats = i.Fats,
-                Description = i.Description
-            }).ToList()
-        };
+        var plan = await _repository
+                       .GetByIdAsync(_trainerContext.TrainerId, planId)
+                   ?? throw new KeyNotFoundException("План харчування не знайдено");
 
-        return _repository.UpdatePlanAsync(plan);
+        dto.Adapt(plan);
+
+        plan.Items.Clear();
+
+        foreach (var i in dto.Items)
+        {
+            var item = i.Adapt<NutritionItem>();
+            item.Id = Guid.NewGuid();
+            plan.Items.Add(item);
+        }
+
+        await _repository.SaveChangesAsync();
     }
 
-    public Task DeleteAsync(Guid trainerId, Guid planId) =>
-        _repository.DeletePlanAsync(trainerId, planId);
-
-    private static NutritionPlanDto MapToDto(NutritionPlan plan) => new()
+    public Task DeleteAsync(Guid planId)
     {
-        Id = plan.Id,
-        Title = plan.Title,
-        Notes = plan.Notes,
-        StartDate = plan.StartDate,
-        Items = plan.Items.Select(i => new NutritionItemDto
-        {
-            Id = i.Id,
-            Name = i.Name,
-            Protein = i.Protein,
-            Carbs = i.Carbs,
-            Fats = i.Fats,
-            Description = i.Description,
-            Calories = i.Calories
-        })
-    };
-    public Task<Guid> GetTrainerIdAsync(ClaimsPrincipal userClaims)
-    {
-        var trainerIdClaim = userClaims.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (trainerIdClaim == null || !Guid.TryParse(trainerIdClaim, out var trainerId))
-            throw new UnauthorizedAccessException("Користувач не є тренером.");
-
-        return Task.FromResult(trainerId);
+        return _repository.DeletePlanAsync(
+            _trainerContext.TrainerId,
+            planId);
     }
 }

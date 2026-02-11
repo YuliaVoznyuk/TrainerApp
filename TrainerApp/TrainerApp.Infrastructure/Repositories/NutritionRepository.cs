@@ -13,6 +13,12 @@ public class NutritionRepository : INutritionRepository
     {
         _context = context;
     }
+    public async Task<NutritionPlan?> GetByIdAsync(Guid trainerId, Guid planId)
+    {
+        return await _context.NutritionPlans
+            .Include(p => p.Items)
+            .FirstOrDefaultAsync(p => p.Id == planId && p.TrainerId == trainerId);
+    }
 
     public async Task<IEnumerable<NutritionPlan>> GetTrainerPlansAsync(Guid trainerId) =>
         await _context.NutritionPlans

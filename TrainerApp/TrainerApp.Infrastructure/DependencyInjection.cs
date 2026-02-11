@@ -11,6 +11,7 @@ using TrainerApp.Infrastructure.Jwt;
 using TrainerApp.Infrastructure.Persistence;
 using TrainerApp.Infrastructure.Repositories;
 using TrainerApp.Infrastructure.Services;
+using TrainerApp.Infrastructure.Storage;
 
 namespace TrainerApp.Infrastructure;
 
@@ -41,7 +42,7 @@ public static class DependencyInjection
         services.AddScoped<IScheduleRepository, ScheduleRepository>();
         services.AddScoped<INutritionRepository, NutritionRepository>();
         services.AddScoped<IPhotoRepository, PhotoRepository>();
-        services.AddScoped<IFileStorage, FileStorageService>();
+        services.AddScoped<IPhotoStorage, S3PhotoStorage>();
 
        
         services.AddScoped<IClientRepository, ClientRepository>();

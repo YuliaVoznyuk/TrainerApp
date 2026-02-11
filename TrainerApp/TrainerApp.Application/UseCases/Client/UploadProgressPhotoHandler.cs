@@ -7,10 +7,10 @@ namespace TrainerApp.Application.UseCases.Client;
 
 public class UploadProgressPhotoHandler
 {
-    private readonly IFileStorage _fileStorage;
+    private readonly IPhotoStorage _fileStorage;
     private readonly IPhotoRepository _photoRepository;
 
-    public UploadProgressPhotoHandler(IFileStorage fileStorage, IPhotoRepository photoRepository)
+    public UploadProgressPhotoHandler(IPhotoStorage fileStorage, IPhotoRepository photoRepository)
     {
         _fileStorage = fileStorage;
         _photoRepository = photoRepository;
@@ -24,7 +24,7 @@ public class UploadProgressPhotoHandler
         if (type is not (PhotoType.Before or PhotoType.After))
             throw new ArgumentException("Progress photos must be Before or After type.");
 
-        var fileUrl = await _fileStorage.SaveFileAsync(fileStream, fileName, "progress");
+        var fileUrl = await _fileStorage.SaveAsync(fileStream, fileName, "progress");
 
         var photo = new Photo
         {

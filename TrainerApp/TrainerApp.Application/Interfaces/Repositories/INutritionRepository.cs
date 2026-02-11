@@ -4,6 +4,8 @@ namespace TrainerApp.Application.Interfaces.Repositories;
 
 public interface INutritionRepository
 {
+    Task<NutritionPlan?> GetByIdAsync(Guid trainerId, Guid planId);
+
     Task<IEnumerable<NutritionPlan>> GetTrainerPlansAsync(Guid trainerId);
     Task<NutritionPlan?> GetPlanByIdAsync(Guid trainerId, Guid planId);
     Task<Guid> CreatePlanAsync(NutritionPlan plan);

@@ -6,12 +6,10 @@ namespace TrainerApp.API.Middleware;
 public class ExceptionHandlingMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
-    public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
+    public ExceptionHandlingMiddleware(RequestDelegate next)
     {
         _next = next;
-        _logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -20,37 +18,23 @@ public class ExceptionHandlingMiddleware
         {
             await _next(context);
         }
+        catch (ArgumentException ex)
+        {
+            context.Response.StatusCode = 400;
+            await context.Response.WriteAsJsonAsync(new { ex.Message });
+        }
         catch (UnauthorizedAccessException ex)
         {
-            await HandleExceptionAsync(context, ex, HttpStatusCode.Unauthorized);
+            context.Response.StatusCode = 401;
+            await context.Response.WriteAsJsonAsync(new { ex.Message });
         }
-        catch (KeyNotFoundException ex)
+        catch (Exception)
         {
-            await HandleExceptionAsync(context, ex, HttpStatusCode.NotFound);
+            context.Response.StatusCode = 500;
+            await context.Response.WriteAsJsonAsync(new
+            {
+                Message = "Internal server error"
+            });
         }
-        catch (InvalidOperationException ex)
-        {
-            await HandleExceptionAsync(context, ex, HttpStatusCode.BadRequest);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Unhandled exception");
-            await HandleExceptionAsync(context, ex, HttpStatusCode.InternalServerError);
-        }
-    }
-
-    private static async Task HandleExceptionAsync(HttpContext context, Exception ex, HttpStatusCode code)
-    {
-        context.Response.ContentType = "application/json";
-        context.Response.StatusCode = (int)code;
-
-        var response = new
-        {
-            error = ex.Message,
-            status = (int)code,
-            timestamp = DateTime.UtcNow
-        };
-
-        await context.Response.WriteAsync(JsonSerializer.Serialize(response));
     }
 }

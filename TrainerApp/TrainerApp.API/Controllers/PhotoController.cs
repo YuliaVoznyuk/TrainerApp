@@ -13,12 +13,12 @@ namespace TrainerApp.API.Controllers;
 public class PhotoController : ControllerBase
 {
     private readonly IPhotoService _photoService;
-    private readonly IFileStorage _fileStorage;
+    private readonly IPhotoStorage _photoStorage;
 
-    public PhotoController(IPhotoService photoService, IFileStorage fileStorage)
+    public PhotoController(IPhotoService photoService, IPhotoStorage photoStorage)
     {
         _photoService = photoService;
-        _fileStorage = fileStorage;
+        _photoStorage = photoStorage;
     }
 
     private Guid GetUserId() =>
@@ -28,16 +28,24 @@ public class PhotoController : ControllerBase
         User.Claims.First(c => c.Type == ClaimTypes.Role).Value;
 
     [HttpPost("upload")]
-    public async Task<IActionResult> Upload([FromForm] IFormFile photo, [FromQuery] PhotoType type)
+    [HttpPost]
+    public async Task<IActionResult> UploadPhoto(
+        IFormFile photo,
+        PhotoType type)
     {
-        if (photo == null) return BadRequest("Photo is required");
+        var userId = GetUserId();
+        var role = User.FindFirstValue(ClaimTypes.Role)!;
 
-        var url = await _fileStorage.SaveFileAsync(photo.OpenReadStream(), photo.FileName, "uploads");
+        var id = await _photoService.UploadAsync(
+            userId,
+            role,
+            photo.OpenReadStream(),
+            photo.FileName,
+            type);
 
-        var id = await _photoService.UploadAsync(GetUserId(), GetRole(), url, type);
-
-        return Ok(new { PhotoId = id });
+        return Ok(id);
     }
+
     [HttpGet]
     public async Task<IActionResult> Get()
     {

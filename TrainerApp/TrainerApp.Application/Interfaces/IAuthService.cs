@@ -5,7 +5,8 @@ namespace TrainerApp.Application.Interfaces;
 
 public interface IAuthService
 {
-    Task RegisterAsync(RegisterDto dto);
+    Task<AuthResponseDto> RegisterAndLoginAsync(RegisterDto dto);
     Task<string> LoginAsync(LoginDto dto);
+
 
 }
